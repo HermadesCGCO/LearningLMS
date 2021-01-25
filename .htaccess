@@ -2,3 +2,5 @@ RewriteEngine On
 
 RewriteRule ^signup$ pages/signup/signup.php [NC,L]
 RewriteRule ^signup/details$ pages/signup/details.php [NC,L]
+
+RewriteRule ^login$ pages/login.php [NC,L]

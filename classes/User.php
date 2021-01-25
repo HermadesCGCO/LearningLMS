@@ -176,15 +176,44 @@ class User {
 	$stmt = $this->conn->prepare("SELECT finished FROM users WHERE name=?");
 	$stmt->bind_param("s", $this->user);
 	$stmt->execute();
-	$result = $stmt->get_result();
-	$row = $result->fetch_array(MYSQLI_ASSOC);
-	$finished = $row["finished"];
+	$stmt->bind_result($finished);
+	$stmt->fetch();
 	$stmt->close();
 
 	if ($finished == "yes") {
 	    return true;
 	} else {
 	    return false;
+	}
+    }
+
+    public function logIn($mail, $pass) {
+	$errors = [];
+
+	$stmt = $this->conn->prepare("SELECT name,password FROM users WHERE email=? LIMIT 1");
+	$stmt->bind_param("s", $mail);
+	$stmt->execute();
+
+	$stmt->store_result();
+	if ($stmt->num_rows == 0) {
+	    $stmt->close();
+	    $errors[] = "El email ingresado no existe";
+
+	    return $errors;
+	} else {
+	    $stmt->bind_result($name, $password);
+	    $stmt->fetch();
+
+	    if (password_verify($pass, $password)) {
+		$stmt->close();
+
+		return $name;
+	    } else {
+		$stmt->close();
+		$errors[] = "Contraseña incorrecta";
+
+		return $errors;
+	    }
 	}
     }
 

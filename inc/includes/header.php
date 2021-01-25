@@ -86,19 +86,119 @@
       </ul>
       <!-- End Top Menu -->
 
-      <ul class="nav navbar-nav ml-auto mr-0">
-	<li class="nav-item">
-	  <a href="#" class="nav-link" data-toggle="tooltip"
-	     data-title="Iniciar sesión" data-placement="bottom"
-	     data-boundary="window">
-	    <i class="material-icons">lock_open</i>
-	  </a>
-	</li>
+      <?php if (!isset($_SESSION["name"])) { ?>
+	<ul class="nav navbar-nav ml-auto mr-0">
+	  <li class="nav-item">
+	    <a href="/login" class="nav-link" data-toggle="tooltip"
+	       data-title="Iniciar sesión" data-placement="bottom"
+	       data-boundary="window">
+	      <i class="material-icons">lock_open</i>
+	    </a>
+	  </li>
 
-	<li class="nav-item">
-	  <a href="/signup" class="btn btn-outline-white">Únetenos</a>
-	</li>
-      </ul>
+	  <li class="nav-item">
+	    <a href="/signup" class="btn btn-outline-white">Únetenos</a>
+	  </li>
+	</ul>
+      <?php } else { ?>
+	<ul class="nav navbar-nav ml-auto mr-0">
+
+	  <!-- Mensajes -->
+	  <div class="nav-item dropdown dropdown-notifications
+		      dropdown-xs-down-full" data-toggle="tooltip"
+	       data-title="Mensajes" data-placement="bottom"
+	       data-boundary="window">
+
+	    <button class="nav-link btn-flush dropdown-toggle"
+		    type="button" data-toggle="dropdown" data-caret="false">
+	      <i class="material-icons icon-24pt">mail_outline</i>
+	    </button>
+
+	    <div class="dropdown-menu dropdown-menu-right">
+	      <div data-perfect-scrollbar
+		   class="position-relative">
+		<div class="dropdown-header">
+		  <strong>Mensajes</strong>
+		</div>
+
+		<div class="list-group list-group-flush mb-0">
+		  <p>Esto aun no esta terminado :'(</p>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	  <!-- / Mensajes -->
+
+	  <!-- Notificaciones -->
+	  <div class="nav-item ml-16pt dropdown dropdown-notifications
+		      dropdown-xs-full" data-toggle="tooltip"
+	       data-title="Notificaciones" data-placement="bottom"
+	       data-boundary="window">
+
+	    <button class="nav-link btn-flush dropdown-toggle"
+		    type="button" data-toggle="dropdown" data-caret="false">
+
+	      <i class="material-icons">notifications_none</i>
+	      <span class="badge badge-notifications badge-accent">1</span>
+
+	    </button>
+
+	    <div class="dropdown-menu dropdown-menu-right">
+	      <div data-perfect-scrollbar class="position-relative">
+
+		<div class="dropdown-header">
+		  <strong>Notificaciones</strong>
+		</div>
+
+		<div class="list-group list-group-flush mb-0">
+		  <p>Esto aun no esta terminado :'(</p>
+		  <p>Tengo pensado poner aqui las respuestas de un tutor a tu
+		    calificacion o si eres un tutor, si algun estudiante publico
+		    una calificacion a alguno de tus cursos.</p>
+		</div>
+
+	      </div>
+	    </div>
+
+	  </div>
+	  <!-- / Notificaciones -->
+
+	  <!-- Usuario -->
+	  <div class="nav-item dropdown">
+	    <a href="#" class="nav-link d-flex align-items-center
+		     dropdown-toggle" data-toggle="dropdown"
+	       data-caret="false">
+
+	      <span class="avatar avatar-sm mr-8pt2">
+		<span class="avatar-title rounded-circle bg-primary">
+		  <i class="material-icons">account_box</i>
+		</span>
+	      </span>
+
+	    </a>
+
+	    <div class="dropdown-menu dropdown-menu-right">
+	      <div class="dropdown-header">
+		<strong>Cuenta</strong>
+	      </div>
+
+	      <a class="dropdown-item" href="#">
+		Editar cuenta
+	      </a>
+
+	      <a class="dropdown-item" href="#">
+		Mis cursos
+	      </a>
+
+	      <a class="dropdown-item" href="#">
+		Centro de notificaciones
+	      </a>
+	    </div>
+	  </div>
+	  <!-- / Usuario -->
+
+	</ul>
+      <?php } ?>
 
     </div>
 
