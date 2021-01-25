@@ -38,6 +38,29 @@
 	<script src="/public/js/app.js"></script>
 	<script src="/public/js/preloader.js"></script>
 
+	<?php if (isset($includeDashboard)) { ?>
+	  <script src="/public/js/settings.js"></script>
+	  <script src="/public/vendor/moment.min.js"></script>
+	  <script src="/public/vendor/moment-range.js"></script>
+	  <script src="/public/vendor/Chart.min.js"></script>
+	  <script src="/public/js/chartjs-rounded-bar.js"></script>
+	  <script src="/public/js/chartjs.js"></script>
+	  <script src="/public/js/page.instructor-dashboard.js"></script>
+	  <script src="/public/vendor/list.min.js"></script>
+	  <script src="/public/js/list.js"></script>
+	  <script src="/public/"></script>
+	  <script src="/public/"></script>
+	  <script src="/public/"></script>
+	  <script src="/public/"></script>
+	  <script src="/public/"></script>
+	  <script src="/public/"></script>
+	<?php } ?>
+
+	<?php if (!isset($noDrawer)) {
+	    include "includes/drawer.php";
+	} ?>
+
+
 	</body>
 
 </html>

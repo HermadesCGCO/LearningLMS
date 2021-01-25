@@ -4,3 +4,5 @@ RewriteRule ^signup$ pages/signup/signup.php [NC,L]
 RewriteRule ^signup/details$ pages/signup/details.php [NC,L]
 
 RewriteRule ^login$ pages/login.php [NC,L]
+
+RewriteRule ^tutor/dashboard$ pages/tutor/dashboard.php [NC,L]

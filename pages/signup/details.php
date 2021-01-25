@@ -2,14 +2,10 @@
 
 $pageTitle = "Haz tu cuenta tuya";
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/config.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/classes/User.php";
 
 if (!isset($_SESSION["name"])) {
     header("Location: /signup");
 }
-
-$user = new User($conn);
-$user->linkUser($_SESSION["name"]);
 
 if ($user->hasFinished()) {
     header("Location: /");

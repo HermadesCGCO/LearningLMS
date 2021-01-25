@@ -20,4 +20,11 @@ if (!$_CONFIG["SITE_PRODUCTION"]) {
 
 include "db.php";
 
+if (isset($_SESSION["name"]) && !defined("Class.User")) {
+    include $_SERVER["DOCUMENT_ROOT"] . "/classes/User.php";
+
+    $user = new User($conn);
+    $user->linkUser($_SESSION["name"]);
+}
+
 ?>

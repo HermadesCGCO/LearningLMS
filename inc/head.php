@@ -1,13 +1,4 @@
-<?php
-
-// TODO:
-// Si ya hay un usuario que inicio sesion, crear una instancia "User" y
-// linkear el usuario conectado.
-// Para evitar errores se puede agregar un if de una variable tipo
-// "dontIncludeUser" y si esa variable existe el User no es incluido
-
-?>
-<!DOCTYPE html>
+<html>
 <html lang="<?php echo $_CONFIG['SITE_LANGUAGE']; ?>" dir="ltr">
   <head>
     <meta charset="utf-8">

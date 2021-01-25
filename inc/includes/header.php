@@ -193,6 +193,21 @@
 	      <a class="dropdown-item" href="#">
 		Centro de notificaciones
 	      </a>
+
+	      <?php if ($user->isUserTutor()) { ?>
+	      <div class="dropdown-header">
+		<strong>Tutor</strong>
+	      </div>
+
+	      <a class="dropdown-item" href="/tutor/dashboard">
+		Panel de control
+	      </a>
+
+	      <a class="dropdown-item" href="#">
+		Gestor de cursos
+	      </a>
+	      <?php } ?>
+
 	    </div>
 	  </div>
 	  <!-- / Usuario -->

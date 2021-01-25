@@ -1,5 +1,7 @@
 <?php
 
+define("Class.User", "");
+
 class User {
 
     protected $conn;
@@ -220,6 +222,28 @@ class User {
 
 		return false;
 	    }
+	}
+    }
+
+    public function isUserTutor($user = "") {
+	$toCheck = $this->user;
+
+	if (!empty($user)) {
+	    $toCheck = $user;
+	}
+
+	$stmt = $this->conn->prepare("SELECT isTutor FROM users WHERE name=?");
+	$stmt->bind_param("s", $toCheck);
+	$stmt->execute();
+	$stmt->bind_result($isTutor);
+	$stmt->fetch();
+
+	if ($isTutor == "yes") {
+	    $stmt->close();
+	    return true;
+	} else {
+	    $stmt->close();
+	    return false;
 	}
     }
 
