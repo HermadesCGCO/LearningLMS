@@ -17,12 +17,10 @@ if (isset($_POST["submit"])) {
 
     $login = $user->logIn($mail, $pass);
 
-    if (!is_array($login)) {
+    if ($login) {
 	$_SESSION["name"] = $login;
 	header("Location: /");
 	exit();
-    } else {
-	print_r($login);
     }
 }
 
@@ -50,6 +48,17 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	    <a href="#" class="small">¿Olvidaste tu contraseña?</a>
 	  </p>
 	</div>
+
+	<?php if (isset($user) && sizeof($user->errors) > 0) { ?>
+
+	  <div class="alert alert-danger">
+	    Se han encontrado los siguientes errores:<br>
+	    <?php for ($i = 0; $i < sizeof($user->errors); $i++) { ?>
+	      <?php echo $user->errors[$i] . "<br>"; ?>
+	    <?php } ?>
+	  </div>
+
+	<?php } ?>
 
 	<div class="text-center">
 	  <button class="btn btn-primary" type="submit" name="submit">

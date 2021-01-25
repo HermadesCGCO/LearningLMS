@@ -67,6 +67,15 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 		     required>
 	    </div>
 
+	    <?php if (isset($user) && sizeof($user->errors) > 0) { ?>
+	      <div class="alert alert-danger">
+		Se han encontrado los siguientes errores:<br>
+		<?php for ($i = 0; $i < sizeof($user->errors); $i++) { ?>
+		  <?php echo $user->errors[$i] . "<br>"; ?>
+		<?php } ?>
+	      </div>
+	    <?php } ?>
+
 	    <button class="btn btn-primary" type="submit" name="submit">Crear cuenta</button>
 
 	  </form>

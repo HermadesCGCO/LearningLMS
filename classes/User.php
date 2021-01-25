@@ -41,18 +41,22 @@ class User {
 
 	if ($this->emailExists($data["email"])) {
 	    $canProceed = 0;
+	    $this->errors[] = "El email ingresado ya existe";
 	}
 
 	if ($this->nameExists($data["name"])) {
 	    $canProceed = 0;
+	    $this->errors[] = "El nombre ingresado ya existe";
 	}
 
 	if ($canProceed) {
+	    $data["email"] = strtolower($data["email"]);
+
 	    $stmt = $this->conn->prepare("INSERT INTO users(name, lastname, email, password, registrationDate) VALUES(?, ?, ?, ?, ?)");
 	    $stmt->bind_param("sssss",
 			      $data["name"],
 			      $data["lastname"],
-			      strtolower($data["email"]),
+			      $data["email"],
 			      $finalPass,
 			      $date);
 
@@ -120,11 +124,13 @@ class User {
     }
 
     public function updateInfo($data) {
+	$data["email"] = strtolower($data["email"]);
+
 	$stmt = $this->conn->prepare("UPDATE users SET name=?,lastname=?,email=? WHERE name=?");
 	$stmt->bind_param("ssss",
 			  $data["name"],
 			  $data["lastname"],
-			  strtolower($data["email"]),
+			  $data["email"],
 			  $this->user
 	);
 	if ($stmt->execute()) {
@@ -188,18 +194,18 @@ class User {
     }
 
     public function logIn($mail, $pass) {
-	$errors = [];
+	$mail = strtolower($mail);
 
 	$stmt = $this->conn->prepare("SELECT name,password FROM users WHERE email=? LIMIT 1");
-	$stmt->bind_param("s", strtolower($mail));
+	$stmt->bind_param("s", $mail);
 	$stmt->execute();
 
 	$stmt->store_result();
 	if ($stmt->num_rows == 0) {
 	    $stmt->close();
-	    $errors[] = "El email ingresado no existe";
+	    $this->errors[] = "El email ingresado no existe";
 
-	    return $errors;
+	    return false;
 	} else {
 	    $stmt->bind_result($name, $password);
 	    $stmt->fetch();
@@ -210,9 +216,9 @@ class User {
 		return $name;
 	    } else {
 		$stmt->close();
-		$errors[] = "Contraseña incorrecta";
+		$this->errors[] = "Contraseña incorrecta";
 
-		return $errors;
+		return false;
 	    }
 	}
     }
