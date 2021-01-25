@@ -7,3 +7,6 @@ RewriteRule ^login$ pages/login.php [NC,L]
 
 RewriteRule ^tutor/dashboard$ pages/tutor/dashboard.php [NC,L]
 RewriteRule ^tutor/courses$ pages/tutor/courses.php [NC,L]
+
+RewriteRule ^courses/edit/$ pages/tutor/courses/edit.php?id= [NC,L]
+RewriteRule ^courses/edit/(.*)$ pages/tutor/courses/edit.php?id=$1 [NC,L]

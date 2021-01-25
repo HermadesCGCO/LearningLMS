@@ -53,7 +53,7 @@ include "elements/comprobation.php";
 	$courses = $tutor->getMyCourses();
 
 	for ($i = 0; $i < sizeof($courses); $i++) {
-	    $course->linkCourse($courses[$i]["id"]);
+	    $info = $course->getCourse($courses[$i]);
 	?>
 
 	  <div class="card card-sm card--elevated p-relative o-hidden overlay
@@ -61,8 +61,8 @@ include "elements/comprobation.php";
 	       data--partial-height="44"
 	       data-toggle="popover" data-trigger="click">
 
-	    <a href="#" class="js-image" data-position="">
-	      <img src="<?php echo $courses[$i]["thumb"]; ?>" class="img-fluid">
+	    <a href="/courses/edit/<?php echo $info["id"];?>" class="js-image" data-position="">
+	      <img src="<?php echo $info["thumb"]; ?>" class="img-fluid">
 
 	      <span class="overlay__content align-items-start
 			   justify-content-start">
@@ -81,9 +81,12 @@ include "elements/comprobation.php";
 		<div class="d-flex">
 		  <div class="flex">
 		    <a class="card-title mb-4pt"
-		       href="#"><?php echo $courses[$i]["name"]; ?></a>
+		       href="/courses/edit/<?php echo $info["id"]; ?>">
+		      <?php echo $info["name"]; ?>
+		    </a>
 		  </div>
-		  <a href="#" class="ml-4pt material-icons text-20
+		  <a href="/courses/edit/<?php echo $info["id"] ?>"
+		     class="ml-4pt material-icons text-20
 			   card-course__icon-favorite">edit</a>
 		</div>
 		<div class="d-flex">
@@ -91,7 +94,7 @@ include "elements/comprobation.php";
 		    <!-- TODO: Rating -->
 		  </div>
 		  <small class="text-50">
-		    <?php echo $courses[$i]["duration"]; ?> horas
+		    <?php echo $info["duration"]; ?> horas
 		  </small>
 		</div>
 	      </div>
@@ -104,19 +107,19 @@ include "elements/comprobation.php";
 	      <div class="media-left mr-12pt">
 		<!-- TODO: Reemplazar esta imagen por la imagen de la
 		     categoria de la que este curso hace parte. -->
-		<img src="<?php echo $courses[$i]["thumb"]; ?>"
+		<img src="<?php echo $info["thumb"]; ?>"
 			  width="40" height="40" class="rounded">
 	      </div>
 
 	      <div class="media-body">
 		<div class="card-title mb-0">
-		  <?php echo $courses[$i]["name"]; ?>
+		  <?php echo $info["name"]; ?>
 		</div>
 	      </div>
 	    </div>
 
 	    <p class="my-16pt text-70">
-	      <?php echo $courses[$i]["shortDesc"]; ?>
+	      <?php echo $info["shortDesc"]; ?>
 	    </p>
 
 	    <div class="mb-16pt">
@@ -147,7 +150,7 @@ include "elements/comprobation.php";
 		    access_time
 		  </span>
 		  <p class="flex text-50 lh-1 mb-0">
-		    <small><?php echo $courses[$i]["duration"]; ?>
+		    <small><?php echo $info["duration"]; ?>
 		      horas</small>
 		  </p>
 		</div>
@@ -157,7 +160,7 @@ include "elements/comprobation.php";
 		    play_circle_outline
 		  </span>
 		  <p class="flex text-50 lh-1 mb-0">
-		    <small><?php echo $courses[$i]["lessons"]; ?>
+		    <small><?php echo $info["lessons"]; ?>
 		      lecciones</small>
 		  </p>
 		</div>
@@ -167,14 +170,15 @@ include "elements/comprobation.php";
 		    assessment
 		  </span>
 		  <p class="flex text-50 lh-1 mb-0">
-		    <small><?php echo $courses[$i]["difficulty"]; ?></small>
+		    <small><?php echo $info["difficulty"]; ?></small>
 		  </p>
 		</div>
 
 	      </div>
 
 	      <div class="col text-right">
-		<a href="" class="btn btn-primary">
+		<a href="/courses/edit/<?php echo $info["id"]; ?>"
+		   class="btn btn-primary">
 		  Editar curso
 		</a>
 	      </div>

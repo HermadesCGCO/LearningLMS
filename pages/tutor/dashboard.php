@@ -74,20 +74,24 @@ include "elements/comprobation.php";
 
 		<?php
 
+		include $_SERVER["DOCUMENT_ROOT"] . "/classes/Course.php";
+
+		$course = new Course($conn);
+
 		$courses = $tutor->getMyCourses(4);
 
 		for ($i = 0; $i < sizeof($courses); $i++) {
-
+		    $info = $course->getCourse($courses[$i]);
 		?>
 
 		  <tr>
 		    <td>
 		      <div class="d-flex flex-nowrap align-items-center">
 
-			<a href="/tutor/edit/"
+			<a href="/courses/edit/<?php echo $info["id"]; ?>"
 			   class="avatar avatar-4by3 overlay overlay--primary
 				 mr-12pt">
-			  <img src="<?php echo $courses[$i]["thumb"]; ?>"
+			  <img src="<?php echo $info["thumb"]; ?>"
 			       class="avatar-img rounded">
 			  <span class="overlay__content"></span>
 			</a>
@@ -95,12 +99,12 @@ include "elements/comprobation.php";
 			<div class="flex">
 
 			  <a class="card-title js-lists-values-course"
-			     href="/tutor/edit">
-			    <?php echo $courses[$i]["name"]; ?>
+			     href="/courses/edit/<?php echo $info["id"]; ?>">
+			    <?php echo $info["name"]; ?>
 			  </a>
 
 			  <small class="text-muted mr-1">
-			    <a class="js-lists-values-students"><?php echo $courses[$i]["students"] ?></a>
+			    <a class="js-lists-values-students"><?php echo $info["students"] ?></a>
 			  </small>
 
 			</div>
@@ -110,7 +114,7 @@ include "elements/comprobation.php";
 		    <td class="text-right">
 		      <small class="text-muted text-uppercase
 				    js-lists-values-date">
-			<?php echo $courses[$i]["date"]; ?>
+			<?php echo $info["date"]; ?>
 		      </small>
 		    </td>
 		  </tr>
