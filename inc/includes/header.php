@@ -203,7 +203,7 @@
 		Panel de control
 	      </a>
 
-	      <a class="dropdown-item" href="#">
+	      <a class="dropdown-item" href="/tutor/courses">
 		Gestor de cursos
 	      </a>
 	      <?php } ?>
