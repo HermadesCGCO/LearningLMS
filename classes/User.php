@@ -52,7 +52,7 @@ class User {
 	    $stmt->bind_param("sssss",
 			      $data["name"],
 			      $data["lastname"],
-			      $data["email"],
+			      strtolower($data["email"]),
 			      $finalPass,
 			      $date);
 
@@ -124,7 +124,7 @@ class User {
 	$stmt->bind_param("ssss",
 			  $data["name"],
 			  $data["lastname"],
-			  $data["email"],
+			  strtolower($data["email"]),
 			  $this->user
 	);
 	if ($stmt->execute()) {
@@ -191,7 +191,7 @@ class User {
 	$errors = [];
 
 	$stmt = $this->conn->prepare("SELECT name,password FROM users WHERE email=? LIMIT 1");
-	$stmt->bind_param("s", $mail);
+	$stmt->bind_param("s", strtolower($mail));
 	$stmt->execute();
 
 	$stmt->store_result();
