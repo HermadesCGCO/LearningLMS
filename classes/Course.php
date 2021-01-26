@@ -15,10 +15,27 @@ class Course {
 	$this->id = $id;
     }
 
+    public function courseExists($courseId=null) {
+	$id = $this->id;
+
+	if ($courseId != null){
+	    $id = $courseId;
+	}
+
+	$stmt = $this->conn->prepare("SELECT id FROM courses WHERE id=?");
+	$stmt->bind_param("i", $id);
+	$stmt->execute();
+	$stmt->store_result();
+	$total = ($stmt->num_rows > 0) ? true : false;
+	$stmt->close();
+
+	return $total;
+    }
+
     public function getCourse($courseId=null) {
 	$course = [];
 
-	$query = "SELECT id,name,shortDesc,description,thumb,difficulty,category,date,duration,lastUpdated,students,lessons FROM courses";
+	$query = "SELECT id,name,shortDesc,description,thumb,difficulty,category,duration,lastUpdated,students,lessons FROM courses";
 
 	if ($courseId == null && !empty($this->id)) {
 	    $query .= " WHERE id=" . $this->id;
@@ -37,7 +54,6 @@ class Course {
 	    $thumb,
 	    $difficulty,
 	    $category,
-	    $date,
 	    $duration,
 	    $lastUpdated,
 	    $students,
@@ -53,7 +69,6 @@ class Course {
 	$course["thumb"] = $thumb;
 	$course["difficulty"] = $difficulty;
 	$course["category"] = $category;
-	$course["date"] = $date;
 	$course["duration"] = $duration;
 	$course["lastUpdated"] = $lastUpdated;
 	$course["students"] = $students;
@@ -65,29 +80,43 @@ class Course {
 
     }
 
-    public function getYouLearn($limit = 0) {
-	$things = [];
+    public function createCourse($data, $tutor) {
+	$lastUpdated = date("m/Y");
 
-	$query = "SELECT content FROM courses_youlearn WHERE course=?";
+	$stmt = $this->conn->prepare("INSERT INTO courses(name,shortDesc,description,thumb,difficulty,category,duration,lastUpdated,tutor) VALUES(?,?,?,?,?,?,?,?,?)");
+	$stmt->bind_param("ssssssiss",
+			  $data["name"],
+			  $data["shortDesc"],
+			  $data["description"],
+			  $data["thumb"],
+			  $data["difficulty"],
+			  $data["category"],
+			  $data["duration"],
+			  $lastUpdated,
+			  $tutor
+	);
 
-	if ($limit > 0) {
-	    $query .= " LIMIT " . $limit;
+	if ($stmt->execute()) {
+	    $stmt->close();
+
+	    $stmt = $this->conn->prepare("SELECT id FROM courses WHERE name=? AND tutor=? ORDER BY id DESC LIMIT 1");
+	    $stmt->bind_param("ss",
+			      $data["name"],
+			      $tutor
+	    );
+	    $stmt->execute();
+	    $stmt->bind_result($id);
+	    $stmt->fetch();
+	    $stmt->close();
+
+	    return $id;
+	} else {
+	    return [$this->conn->error];
+	    $stmt->close();
 	}
-
-	$stmt = $this->conn->prepare($query);
-	$stmt->bind_param("i", $this->id);
-	$stmt->execute();
-	$stmt->bind_result($content);
-	while ($stmt->fetch()) {
-	    $things[] = $content;
-	}
-	$stmt->close();
-
-	return $things;
     }
 
     public function updateCourse($data, $courseId=null) {
-	// TODO: Actualizar el lastUpdated date(m/Y)
 	$toUpdateId = $this->id;
 
 	if ($courseId != null) {
@@ -116,6 +145,27 @@ class Course {
 	    return [$this->conn->error];
 	    $stmt->close();
 	}
+    }
+
+    public function getYouLearn($limit = 0) {
+	$things = [];
+
+	$query = "SELECT content FROM courses_youlearn WHERE course=?";
+
+	if ($limit > 0) {
+	    $query .= " LIMIT " . $limit;
+	}
+
+	$stmt = $this->conn->prepare($query);
+	$stmt->bind_param("i", $this->id);
+	$stmt->execute();
+	$stmt->bind_result($content);
+	while ($stmt->fetch()) {
+	    $things[] = $content;
+	}
+	$stmt->close();
+
+	return $things;
     }
 
     public function getCategories() {

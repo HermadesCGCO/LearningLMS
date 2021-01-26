@@ -16,14 +16,33 @@ $course->linkCourse($id);
 
 $info = $course->getCourse();
 
+if ($course->courseExists()) {
+    $type = "update";
+} else {
+    $type = "create";
+}
+
 if (isset($_POST["save"])) {
-    $result = $course->updateCourse($_POST);
-    if (!is_array($result)) {
-	header("Refresh: 0");
-	exit();
-    } else {
-	print_r($result);
-	exit();
+    if ($type == "update") {
+	$result = $course->updateCourse($_POST);
+
+	if (!is_array($result)) {
+	    header("Refresh: 0");
+	    exit();
+	} else {
+	    print_r($result);
+	    exit();
+	}
+    } else if ($type == "create") {
+	$result = $course->createCourse($_POST, $_SESSION["name"]);
+
+	if (!is_array($result)) {
+	    header("Location: /courses/edit/" . $result);
+	    exit();
+	} else {
+	    print_r($result);
+	    exit();
+	}
     }
 }
 
@@ -217,7 +236,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
      var injectThumb = document.querySelector("#injectThumb")
      var thumbInput = document.querySelector("#thumbInput")
 
-     thumbInput.oninput = () => {
+     thumbInput.onchange = () => {
 	 injectThumb.src = thumbInput.value
      }
  }

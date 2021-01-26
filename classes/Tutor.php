@@ -13,13 +13,6 @@ class Tutor {
     }
 
     public function getMyCourses($limit = 0) {
-	// TODO:
-	// Mover esto a la clase "Course" y crear una funcion llamada
-	// "getCourseByID" y ejecutar toda esta funcion solo cambiando el query
-	// para obtener todos estos datos de un curso cuya id sea la
-	// especificada, esta funcion ahora solo devolveria las ids de los
-	// cursos del tutor linkeado
-
 	$courses = [];
 
 	$query = "SELECT id FROM courses WHERE tutor=?";

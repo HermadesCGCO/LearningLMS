@@ -62,10 +62,6 @@ include "elements/comprobation.php";
 		      Estudiantes
 		    </a>
 
-		    <a href="javascript:void(0)" class="sort"
-		       data-sort="js-list-values-date">
-		      Fecha
-		    </a>
 		  </th>
 
 		</tr>
@@ -104,7 +100,10 @@ include "elements/comprobation.php";
 			  </a>
 
 			  <small class="text-muted mr-1">
-			    <a class="js-lists-values-students"><?php echo $info["students"] ?></a>
+			    <a class="js-lists-values-students">
+			      <?php echo $info["students"] ?>
+			      estudiantes
+			    </a>
 			  </small>
 
 			</div>
@@ -112,10 +111,6 @@ include "elements/comprobation.php";
 		      </div>
 		    </td>
 		    <td class="text-right">
-		      <small class="text-muted text-uppercase
-				    js-lists-values-date">
-			<?php echo $info["date"]; ?>
-		      </small>
 		    </td>
 		  </tr>
 
