@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <html lang="<?php echo $_CONFIG['SITE_LANGUAGE']; ?>" dir="ltr">
   <head>
@@ -16,6 +17,10 @@
     <link href="/public/css/fontawesome.css" rel="stylesheet">
     <link href="/public/css/preloader.css" rel="stylesheet">
     <link href="/public/css/app.css" rel="stylesheet">
+
+    <?php if (isset($includeTinyMCE)) { ?>
+      <script src="https://cdn.tiny.cloud/1/ed9i52pzqjggn51x1agkk35jmanr5v75no00uc54fhosxajd/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <?php } ?>
   </head>
 
   <body class="layout-sticky-subnav layout-default">

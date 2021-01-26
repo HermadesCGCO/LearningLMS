@@ -48,12 +48,6 @@
 	  <script src="/public/js/page.instructor-dashboard.js"></script>
 	  <script src="/public/vendor/list.min.js"></script>
 	  <script src="/public/js/list.js"></script>
-	  <script src="/public/"></script>
-	  <script src="/public/"></script>
-	  <script src="/public/"></script>
-	  <script src="/public/"></script>
-	  <script src="/public/"></script>
-	  <script src="/public/"></script>
 	<?php } ?>
 
 	<?php if (!isset($noDrawer)) {
