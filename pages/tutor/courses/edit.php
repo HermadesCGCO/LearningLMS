@@ -16,6 +16,21 @@ $course->linkCourse($id);
 
 $info = $course->getCourse();
 
+if (isset($_POST["save"])) {
+    $result = $course->updateCourse($_POST);
+    if (!is_array($result)) {
+	header("Refresh: 0");
+	exit();
+    } else {
+	print_r($result);
+	exit();
+    }
+}
+
+if (isset($_POST["delete"])) {
+    // TODO: Eliminar este curso
+}
+
 $pageTitle = $info["name"] . " - Editar";
 
 $includeTinyMCE = 1;
@@ -61,9 +76,20 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 		     value="<?php echo $info["name"]; ?>">
 	    </div>
 
+	    <label class="form-label">Descripción corta</label>
+
+	    <div class="form-group mb-24pt">
+	      <input type="text" class="form-control"
+		     placeholder="Descripción corta" name="shortDesc"
+		     value="<?php echo $info["shortDesc"]; ?>"
+		     name="shortDesc">
+	      <small class="form-text text-muted">Ingresa una descripción corta
+		de tu curso que incite a los estudiantes a tomarlo.</small>
+	    </div>
+
 	    <div class="form-group mb-32pt">
 	      <label class="form-label">Descripción</label>
-	      <textarea id="description" name="desc">
+	      <textarea id="description" name="description">
 		<?php echo nl2br($info["description"]); ?>
 	      </textarea>
 	    </div>
@@ -86,9 +112,95 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	      </div>
 	    </div>
 
+	    <div class="page-separator">
+	      <div class="page-separator__text">Miniatura</div>
+	    </div>
+
+	    <div class="card">
+	      <img src="<?php echo $info["thumb"]; ?>" id="injectThumb"
+		     class="img-fluid rounded-top">
+	      <div class="card-body">
+		<label class="form-label">URL</label>
+		<input type="text" class="form-control"
+		       value="<?php echo $info["thumb"]; ?>"
+		       placeholder="Ingresa la URL de una imágen"
+		       name="thumb"
+		       id="thumbInput">
+	      </div>
+	    </div>
+
+	    <div class="page-separator">
+	      <div class="page-separator__text">Opciones</div>
+	    </div>
+
+	    <div class="card">
+	      <div class="card-body">
+		<div class="form-group">
+		  <label class="form-label">Categoría</label>
+		  <select name="category" class="form-control custom-select">
+		    <?php
+
+		    $categories = $course->getCategories();
+
+		    for ($i = 0; $i < sizeof($categories); $i++) {
+
+		    ?>
+		      <option value="<?php echo $categories[$i] ?>"
+			      <?php if ($categories[$i] == $info["category"]) {
+				  echo "selected";
+			      } ?>>
+			<?php echo $categories[$i]; ?>
+		      </option>
+		    <?php } ?>
+		  </select>
+		</div>
+
+		<div class="form-group">
+		  <label class="form-label">Dificultad</label>
+		  <select name="difficulty" class="form-control custom-select">
+		    <?php
+
+		    $difficulties = $course->getDifficulties();
+
+		    for ($i = 0; $i < sizeof($difficulties); $i++) {
+
+		    ?>
+
+		      <option value="<?php echo $difficulties[$i]; ?>"
+			      <?php
+			      if ($difficulties[$i] == $info["difficulty"]) {
+				  echo "selected";
+			      }
+			      ?>
+		      >
+			<?php echo $difficulties[$i]; ?>
+		      </option>
+
+		    <?php } ?>
+		  </select>
+		</div>
+
+		<div class="form-group mb-0">
+		  <label class="form-label">Duración</label>
+		  <div class="row">
+		    <div class="col-md-6">
+		      <div class="input-group form-inline">
+			<input type="number" class="form-control"
+			       name="duration"
+			       value="<?php echo $info["duration"]; ?>">
+		      </div>
+		    </div>
+		  </div>
+		  <small class="form-text text-muted">
+		    Ingresa la duración del curso (en horas).
+		  </small>
+		</div>
+	      </div>
+	    </div>
+
 	  </div>
 	</div>
-	
+
       </form>
     </div>
   </div>
@@ -100,6 +212,15 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
      selector: "#description",
      plugins: "advlist autolink lists link image charmap print preview hr anchor pagebreak"
  })
+
+ window.onload = () => {
+     var injectThumb = document.querySelector("#injectThumb")
+     var thumbInput = document.querySelector("#thumbInput")
+
+     thumbInput.oninput = () => {
+	 injectThumb.src = thumbInput.value
+     }
+ }
 </script>
 
 <?php

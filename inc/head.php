@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <html lang="<?php echo $_CONFIG['SITE_LANGUAGE']; ?>" dir="ltr">
   <head>
     <meta charset="utf-8">
