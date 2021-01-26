@@ -30,7 +30,7 @@ if (isset($_POST["create"])) {
 
 $pageTitle = "Crear sección";
 
-include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
+include "../elements/comprobation.php";
 
 ?>
 

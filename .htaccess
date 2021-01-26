@@ -11,5 +11,10 @@ RewriteRule ^tutor/courses$ pages/tutor/courses.php [NC,L]
 RewriteRule ^courses/edit/$ pages/tutor/courses/edit.php?id= [NC,L]
 RewriteRule ^courses/edit/(.*)$ pages/tutor/courses/edit.php?id=$1 [NC,L]
 
+RewriteRule ^courses/create pages/tutor/courses/edit.php?id=-1 [NC,L]
+RewriteRule ^courses/create/ pages/tutor/courses/edit.php?id=-1 [NC,L]
+
 RewriteRule ^section/add/$ pages/tutor/courses/addSection.php?id= [NC,L]
 RewriteRule ^section/add/(.*)$ pages/tutor/courses/addSection.php?id=$1 [NC,L]
+
+RewriteRule ^course/([0-9]+)/addLesson/([0-9]+)$ pages/tutor/courses/addLesson.php?course=$1&section=$2 [NC,L]

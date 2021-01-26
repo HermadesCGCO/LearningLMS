@@ -28,7 +28,7 @@ include "elements/comprobation.php";
 
       <div class="row" role="tablist">
 	<div class="col-auto">
-	  <a href="/courses/edit/-1" class="btn btn-outline-secondary">
+	  <a href="/courses/create" class="btn btn-outline-secondary">
 	    Crear curso
 	  </a>
 	</div>

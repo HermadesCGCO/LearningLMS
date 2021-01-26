@@ -52,7 +52,7 @@ $pageTitle = $info["name"] . " - Editar";
 
 $includeTinyMCE = 1;
 
-include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
+include "../elements/comprobation.php";
 
 ?>
 
@@ -138,7 +138,11 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 		  <div class="accordion__menu collapse"
 		       id="course-toc-<?php echo $i; ?>">
-
+		    <div class="accordion__menu-link d-flex justify-content-end">
+		      <a class="text-primary" href="/course/<?php echo $id . "/addLesson/" . $sections[$i]["id"]; ?>">
+			Crear lección
+		      </a>
+		    </div>
 		    <?php
 
 		    // TODO: Get lessons
