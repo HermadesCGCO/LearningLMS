@@ -1,7 +1,5 @@
 <?php
 
-// TODO: Si la ID del curso ingresado no existe, crear uno nuevo
-
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/config.php";
 include $_SERVER["DOCUMENT_ROOT"] . "/classes/Course.php";
 
@@ -92,7 +90,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	    <div class="form-group mb-24pt">
 	      <input type="text" class="form-control form-control-lg"
 		     placeholder="Nombre del curso" name="name"
-		     value="<?php echo $info["name"]; ?>">
+		     value="<?php echo $info["name"]; ?>" required>
 	    </div>
 
 	    <label class="form-label">Descripción corta</label>
@@ -101,7 +99,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	      <input type="text" class="form-control"
 		     placeholder="Descripción corta" name="shortDesc"
 		     value="<?php echo $info["shortDesc"]; ?>"
-		     name="shortDesc">
+		     name="shortDesc" required>
 	      <small class="form-text text-muted">Ingresa una descripción corta
 		de tu curso que incite a los estudiantes a tomarlo.</small>
 	    </div>
@@ -113,6 +111,50 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	      </textarea>
 	    </div>
 
+	    <div class="page-separator">
+	      <div class="page-separator__text">Secciones</div>
+	    </div>
+
+	    <div class="accordion js-accordion accordion--boxed
+			mb-24pt" id="parent">
+	      <?php
+
+	      $sections = $course->getSections();
+
+	      for ($i = 0; $i < sizeof($sections); $i++) {
+
+	      ?>
+
+		<div class="accordion__item">
+		  <a href="#" class="accordion__toggle collapsed"
+		     data-toggle="collapse"
+		     data-target="#course-toc-<?php echo $i; ?>"
+		     data-parent="#parent">
+		    <span class="flex"><?php echo $sections[$i]["name"]; ?></span>
+		    <span class="accordion__toggle-icon material-icons">
+		      keyboard_arrow_down
+		    </span>
+		  </a>
+
+		  <div class="accordion__menu collapse"
+		       id="course-toc-<?php echo $i; ?>">
+
+		    <?php
+
+		    // TODO: Get lessons
+
+		    ?>
+
+		  </div>
+		</div>
+
+	      <?php } ?>
+	    </div>
+
+	    <a href="/section/add/<?php echo $_GET["id"]; ?>"
+	       class="btn btn-outline-secondary mb-24pt mb-sm-0">
+	      Agregar sección
+	    </a>
 	  </div>
 
 	  <div class="col-md-4">
@@ -144,7 +186,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 		       value="<?php echo $info["thumb"]; ?>"
 		       placeholder="Ingresa la URL de una imágen"
 		       name="thumb"
-		       id="thumbInput">
+		       id="thumbInput" required>
 	      </div>
 	    </div>
 
@@ -156,7 +198,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	      <div class="card-body">
 		<div class="form-group">
 		  <label class="form-label">Categoría</label>
-		  <select name="category" class="form-control custom-select">
+		  <select name="category" class="form-control custom-select" required>
 		    <?php
 
 		    $categories = $course->getCategories();
@@ -176,7 +218,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 		<div class="form-group">
 		  <label class="form-label">Dificultad</label>
-		  <select name="difficulty" class="form-control custom-select">
+		  <select name="difficulty" class="form-control custom-select" required>
 		    <?php
 
 		    $difficulties = $course->getDifficulties();
@@ -206,7 +248,8 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 		      <div class="input-group form-inline">
 			<input type="number" class="form-control"
 			       name="duration"
-			       value="<?php echo $info["duration"]; ?>">
+			       value="<?php echo $info["duration"]; ?>"
+			       required>
 		      </div>
 		    </div>
 		  </div>

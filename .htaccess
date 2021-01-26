@@ -10,3 +10,6 @@ RewriteRule ^tutor/courses$ pages/tutor/courses.php [NC,L]
 
 RewriteRule ^courses/edit/$ pages/tutor/courses/edit.php?id= [NC,L]
 RewriteRule ^courses/edit/(.*)$ pages/tutor/courses/edit.php?id=$1 [NC,L]
+
+RewriteRule ^section/add/$ pages/tutor/courses/addSection.php?id= [NC,L]
+RewriteRule ^section/add/(.*)$ pages/tutor/courses/addSection.php?id=$1 [NC,L]

@@ -143,7 +143,6 @@ class Course {
 	    return true;
 	} else {
 	    return [$this->conn->error];
-	    $stmt->close();
 	}
     }
 
@@ -166,6 +165,50 @@ class Course {
 	$stmt->close();
 
 	return $things;
+    }
+
+    public function createSection($name, $courseId=null) {
+	$course = $this->id;
+
+	if ($courseId != null) {
+	    $course = $courseId;
+	}
+
+	$stmt = $this->conn->prepare("INSERT INTO courses_sections(name,courseId) VALUES(?,?)");
+	$stmt->bind_param("si", $name, $course);
+	if ($stmt->execute()) {
+	    $stmt->close();
+	    return true;
+	} else {
+	    return [$this->conn->error];
+	}
+    }
+
+    public function getSections($courseId=null) {
+	$sections = [];
+
+	$course = $this->id;
+
+	if ($courseId != null) {
+	    $course = $courseId;
+	}
+
+	$stmt = $this->conn->prepare("SELECT id,name FROM courses_sections WHERE courseId=? ORDER BY id ASC");
+	$stmt->bind_param("i", $course);
+	$stmt->execute();
+	$stmt->bind_result($id, $name);
+	$i = 0;
+
+	while ($stmt->fetch()) {
+	    $sections[$i]["id"] = $id;
+	    $sections[$i]["name"] = $name;
+
+	    $i++;
+	}
+
+	$stmt->close();
+
+	return $sections;
     }
 
     public function getCategories() {
