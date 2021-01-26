@@ -44,20 +44,20 @@ class Course {
 	    $lessons
 	);
 
-	while($stmt->fetch()) {
-	    $course["id"] = $id;
-	    $course["name"] = $name;
-	    $course["shortDesc"] = $shortDesc;
-	    $course["description"] = $description;
-	    $course["thumb"] = $thumb;
-	    $course["difficulty"] = $difficulty;
-	    $course["category"] = $category;
-	    $course["date"] = $date;
-	    $course["duration"] = $duration;
-	    $course["lastUpdated"] = $lastUpdated;
-	    $course["students"] = $students;
-	    $course["lessons"] = $lessons;
-	}
+	$stmt->fetch();
+
+	$course["id"] = $id;
+	$course["name"] = $name;
+	$course["shortDesc"] = $shortDesc;
+	$course["description"] = $description;
+	$course["thumb"] = $thumb;
+	$course["difficulty"] = $difficulty;
+	$course["category"] = $category;
+	$course["date"] = $date;
+	$course["duration"] = $duration;
+	$course["lastUpdated"] = $lastUpdated;
+	$course["students"] = $students;
+	$course["lessons"] = $lessons;
 
 	$stmt->close();
 
