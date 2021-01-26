@@ -28,7 +28,7 @@ include "elements/comprobation.php";
 
       <div class="row" role="tablist">
 	<div class="col-auto">
-	  <a href="#" class="btn btn-outline-secondary">
+	  <a href="/courses/edit/-1" class="btn btn-outline-secondary">
 	    Crear curso
 	  </a>
 	</div>
@@ -46,23 +46,21 @@ include "elements/comprobation.php";
 
     <div class="row">
 
-      <div class="col-sm-6 col-md-4 col-xl-3">
+      <?php
 
-	<?php
+      $courses = $tutor->getMyCourses();
 
-	$courses = $tutor->getMyCourses();
-
-	for ($i = 0; $i < sizeof($courses); $i++) {
-	    $info = $course->getCourse($courses[$i]);
-	?>
-
+      for ($i = 0; $i < sizeof($courses); $i++) {
+	  $info = $course->getCourse($courses[$i]);
+      ?>
+	<div class="col-sm-6 col-md-4 col-xl-3">
 	  <div class="card card-sm card--elevated p-relative o-hidden overlay
 		      overlay--primary js-overlay mdk-reveal js-mdk-reveal"
 	       data--partial-height="44"
 	       data-toggle="popover" data-trigger="click">
 
 	    <a href="/courses/edit/<?php echo $info["id"];?>" class="js-image" data-position="">
-	      <img src="<?php echo $info["thumb"]; ?>" class="img-fluid">
+	      <img src="<?php echo $info["thumb"]; ?>" width="430" height="168">
 
 	      <span class="overlay__content align-items-start
 			   justify-content-start">
@@ -108,7 +106,7 @@ include "elements/comprobation.php";
 		<!-- TODO: Reemplazar esta imagen por la imagen de la
 		     categoria de la que este curso hace parte. -->
 		<img src="<?php echo $info["thumb"]; ?>"
-			  width="40" height="40" class="rounded">
+		     width="40" height="40" class="rounded">
 	      </div>
 
 	      <div class="media-body">
@@ -184,10 +182,10 @@ include "elements/comprobation.php";
 	      </div>
 	    </div>
 	  </div>
+	</div>
 
-	<?php } ?>
+      <?php } ?>
 
-      </div>
 
     </div>
 
