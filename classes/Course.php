@@ -245,7 +245,7 @@ class Course {
 
 	    $date = date("m/Y");
 
-	    $stmt = $this->conn->prepare("UPDATE courses SET lastUpdated=? WHERE id=?");
+	    $stmt = $this->conn->prepare("UPDATE courses SET lastUpdated=?,lessons=lessons+1 WHERE id=?");
 	    $stmt->bind_param("si", $date, $course);
 	    if ($stmt->execute()) {
 		$stmt->close();
