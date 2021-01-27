@@ -332,8 +332,6 @@ class Course {
     }
 
     public function deleteCourse($courseId=null) {
-	// TODO: Eliminar secciones y lecciones
-
 	$course = $this->id;
 
 	if ($courseId != null) {
