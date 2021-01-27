@@ -139,15 +139,27 @@ include "../elements/comprobation.php";
 		  <div class="accordion__menu collapse"
 		       id="course-toc-<?php echo $i; ?>">
 		    <div class="accordion__menu-link d-flex justify-content-end">
-		      <a class="text-primary" href="/course/<?php echo $id . "/addLesson/" . $sections[$i]["id"]; ?>">
+		      <a class="text-primary" href="/course/<?php echo "addLesson/" . $sections[$i]["id"]; ?>">
 			Crear lección
 		      </a>
 		    </div>
 		    <?php
 
-		    // TODO: Get lessons
+		    // TODO: Actualizar lección
+		    // TODO: Organizar lecciones al arrastrarlas
+		    $lessons = $course->getLessonsFromSection($sections[$i]["id"]);
+
+		    for ($j = 0; $j < sizeof($lessons); $j++) {
 
 		    ?>
+
+		      <div class="accordion__menu-link">
+			<a class="flex" href="#">
+			  <?php echo $lessons[$j]["name"]; ?>
+			</a>
+		      </div>
+
+		    <?php } ?>
 
 		  </div>
 		</div>
@@ -208,7 +220,7 @@ include "../elements/comprobation.php";
 		    $categories = $course->getCategories();
 
 		    for ($i = 0; $i < sizeof($categories); $i++) {
-
+	
 		    ?>
 		      <option value="<?php echo $categories[$i] ?>"
 			      <?php if ($categories[$i] == $info["category"]) {

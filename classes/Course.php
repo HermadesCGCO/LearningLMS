@@ -211,6 +211,100 @@ class Course {
 	return $sections;
     }
 
+    public function getIdFromSection($sectionId) {
+	$stmt = $this->conn->prepare("SELECT courseId FROM courses_sections WHERE id=? LIMIT 1");
+	$stmt->bind_param("i", $sectionId);
+	$stmt->execute();
+	$stmt->bind_result($courseId);
+	$stmt->fetch();
+	$stmt->close();
+
+	return $courseId;
+    }
+
+    public function addLesson($data, $sectionId, $courseId=null) {
+	$course = $this->id;
+
+	if ($courseId != null) {
+	    $course = $courseId;
+	}
+
+	$canProceed = 1;
+
+	$stmt = $this->conn->prepare("INSERT INTO courses_lessons(name,content,video,sectionId,courseId) VALUES(?,?,?,?,?)");
+	$stmt->bind_param("sssii", $data["name"], $data["content"], $data["video"], $sectionId, $course);
+	if ($stmt->execute()) {
+	    $stmt->close();
+	} else {
+	    $canProceed = 0;
+	}
+
+	if ($canProceed) {
+	    // Si la lección se creo correctamente, actualizar el "lastUpdated"
+	    // del curso.
+
+	    $date = date("m/Y");
+
+	    $stmt = $this->conn->prepare("UPDATE courses SET lastUpdated=? WHERE id=?");
+	    $stmt->bind_param("si", $date, $course);
+	    if ($stmt->execute()) {
+		$stmt->close();
+		return 1;
+	    } else {
+		$stmt->close();
+		return 0;
+	    }
+	}
+
+	return $canProceed;
+    }
+
+    public function getLessonsFromSection($sectionId, $depth=1, $courseId=null) {
+	// La variable depth determina cuantas cosas se obtienen de la base de
+	// datos, con su valor por defecto "1" solamente se obtiene el id y el
+	// nombre, si su valor es "2" se obtiene el nombre, el contenido y el
+	// video.
+
+	$lessons = [];
+
+	$course = $this->id;
+
+	if ($courseId != null) {
+	    $course = $courseId;
+	}
+
+	$select = "id,name";
+
+	if ($select == 2) {
+	    $select .= ",content,video";
+	}
+
+	$stmt = $this->conn->prepare("SELECT " . $select . " FROM courses_lessons WHERE sectionId=? AND courseId=? ORDER BY id ASC");
+	$stmt->bind_param("ii", $sectionId, $course);
+	$stmt->execute();
+	if ($depth == 1) {
+	    $stmt->bind_result($id, $name);
+	} else if ($depth == 2) {
+	    $stmt->bind_result($id, $name, $content, $video);
+	}
+
+	$i = 0;
+	while ($stmt->fetch()) {
+	    $lessons[$i]["id"] = $id;
+	    $lessons[$i]["name"] = $name;
+
+	    if ($depth == 2) {
+		$lessons[$i]["content"] = $content;
+		$lessons[$i]["video"] = $video;
+	    }
+
+	    $i++;
+	}
+	$stmt->close();
+
+	return $lessons;
+    }
+
     public function getCategories() {
 	return [
 	    "Hacking",
