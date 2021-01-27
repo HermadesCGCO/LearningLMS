@@ -103,16 +103,36 @@ include "elements/comprobation.php";
 	  <div class="popoverContainer d-none">
 	    <div class="media">
 	      <div class="media-left mr-12pt">
-		<!-- TODO: Reemplazar esta imagen por la imagen de la
-		     categoria de la que este curso hace parte. -->
-		<img src="<?php echo $info["thumb"]; ?>"
+		<img src="<?php
+
+			  if ($info["category"] == "Hacking") {
+			      echo "/public/images/icons/hacking.jpg";
+			  } else if ($info["category"] == "Programación") {
+			      echo "/public/images/icons/programming.jpg";
+			  } else if ($info["category"] == "Desarrollo web") {
+			      echo "/public/images/icons/web.jpg";
+			  } else if ($info["category"] == "Linux") {
+			      echo "/public/images/icons/linux.jpg";
+			  } else if ($info["category"] == "Desarrollo aplicaciones móviles") {
+			      echo "/public/images/icons/mobile.jpg";
+			  }
+
+			  ?>"
 		     width="40" height="40" class="rounded">
+
 	      </div>
 
 	      <div class="media-body">
-		<div class="card-title mb-0">
+		<h1 class="card-title mb-0">
 		  <?php echo $info["name"]; ?>
-		</div>
+		</h1>
+
+		<p class="lh-l mb-0">
+		  <span class="text-50 small">por</span>
+		  <span class="text-50 small font-weight-bold">
+		    <?php echo $info["tutor"]; ?>
+		  </span>
+		</p>
 	      </div>
 	    </div>
 

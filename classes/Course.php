@@ -59,7 +59,7 @@ class Course {
     public function getCourse($courseId=null) {
 	$course = [];
 
-	$query = "SELECT id,name,shortDesc,description,thumb,difficulty,category,duration,lastUpdated,students,lessons FROM courses";
+	$query = "SELECT id,name,shortDesc,description,thumb,difficulty,category,duration,lastUpdated,students,lessons,tutor FROM courses";
 
 	if ($courseId == null && !empty($this->id)) {
 	    $query .= " WHERE id=" . $this->id;
@@ -81,7 +81,8 @@ class Course {
 	    $duration,
 	    $lastUpdated,
 	    $students,
-	    $lessons
+	    $lessons,
+	    $tutor
 	);
 
 	$stmt->fetch();
@@ -97,6 +98,7 @@ class Course {
 	$course["lastUpdated"] = $lastUpdated;
 	$course["students"] = $students;
 	$course["lessons"] = $lessons;
+	$course["tutor"] = $tutor;
 
 	$stmt->close();
 
@@ -329,6 +331,25 @@ class Course {
 	$stmt->close();
 
 	return $lessons;
+    }
+
+    public function getFeaturedCourses($limitCourses=0) {
+	$courses = [];
+	$limit = "";
+
+	if ($limitCourses > 0) {
+	    $limit = " LIMIT " . $limitCourses;
+	}
+
+	$stmt = $this->conn->prepare("SELECT id FROM courses WHERE featured='yes'" . $limit);
+	$stmt->execute();
+	$stmt->bind_result($id);
+	while ($stmt->fetch()) {
+	    $courses[] = $id;
+	}
+	$stmt->close();
+
+	return $courses;
     }
 
     public function deleteCourse($courseId=null) {

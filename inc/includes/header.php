@@ -1,5 +1,7 @@
-<div id="header" class="mdk-header mdk-header--bg-dark bg-dark js-mdk-header
-	 mb-0" data-effects="parallax-background waterfall" data-fixed
+<div id="header"
+     class="mdk-header mdk-header--bg-dark bg-dark js-mdk-header mb-0"
+     data-effects="parallax-background waterfall"
+     data-fixed
      data-condenses>
 
   <?php if (isset($includeHero) && $includeHero == 1) : ?>
