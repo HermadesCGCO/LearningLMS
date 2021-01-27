@@ -45,7 +45,11 @@ if (isset($_POST["save"])) {
 }
 
 if (isset($_POST["delete"])) {
-    // TODO: Eliminar este curso
+    if ($course->courseExists()) {
+	if ($course->deleteCourse()) {
+	    header("Location: /tutor/courses");
+	}
+    }
 }
 
 $pageTitle = $info["name"] . " - Editar";
@@ -148,7 +152,6 @@ include "../elements/comprobation.php";
 		      <?php
 
 		      // TODO: Actualizar lección
-		      // TODO: Organizar lecciones al arrastrarlas
 		      $lessons = $course->getLessonsFromSection($sections[$i]["id"]);
 
 		      for ($j = 0; $j < sizeof($lessons); $j++) {

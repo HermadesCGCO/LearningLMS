@@ -331,6 +331,44 @@ class Course {
 	return $lessons;
     }
 
+    public function deleteCourse($courseId=null) {
+	// TODO: Eliminar secciones y lecciones
+
+	$course = $this->id;
+
+	if ($courseId != null) {
+	    $course = $courseId;
+	}
+
+	// Eliminar curso
+	$stmt = $this->conn->prepare("DELETE FROM courses WHERE id=?");
+	$stmt->bind_param("i", $course);
+	$stmt->execute();
+	$stmt->close();
+
+	// Eliminar secciones
+	$sections = $this->getSections();
+
+	for ($i = 0; $i < sizeof($sections); $i++) {
+	    $stmt = $this->conn->prepare("DELETE FROM courses_sections WHERE id=?");
+	    $stmt->bind_param("i", $sections[$i]["id"]);
+	    $stmt->execute();
+	    $stmt->close();
+
+	    // Eliminar lecciones
+	    $lessons = $this->getLessonsFromSection($sections[$i]["id"]);
+
+	    for ($j = 0; $j < sizeof($lessons); $j++) {
+		$stmt = $this->conn->prepare("DELETE FROM courses_lessons WHERE id=?");
+		$stmt->bind_param("i", $lessons[$j]["id"]);
+		$stmt->execute();
+		$stmt->close();
+	    }
+	}
+
+	return true;
+    }
+
     public function getCategories() {
 	return [
 	    "Hacking",
