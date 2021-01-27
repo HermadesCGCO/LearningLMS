@@ -143,23 +143,30 @@ include "../elements/comprobation.php";
 			Crear lección
 		      </a>
 		    </div>
-		    <?php
 
-		    // TODO: Actualizar lección
-		    // TODO: Organizar lecciones al arrastrarlas
-		    $lessons = $course->getLessonsFromSection($sections[$i]["id"]);
+		    <div id="sortable-<?php echo $i;?>">
+		      <?php
 
-		    for ($j = 0; $j < sizeof($lessons); $j++) {
+		      // TODO: Actualizar lección
+		      // TODO: Organizar lecciones al arrastrarlas
+		      $lessons = $course->getLessonsFromSection($sections[$i]["id"]);
 
-		    ?>
+		      for ($j = 0; $j < sizeof($lessons); $j++) {
 
-		      <div class="accordion__menu-link">
-			<a class="flex" href="#">
-			  <?php echo $lessons[$j]["name"]; ?>
-			</a>
-		      </div>
+		      ?>
 
-		    <?php } ?>
+			<div class="accordion__menu-link"
+			     id="<?php echo $lessons[$j]["id"]; ?>">
+			  <i class="material-icons text-70 icon-16pt icon--left">
+			    drag_handle
+			  </i>
+			  <a class="flex" href="#">
+			    <?php echo $lessons[$j]["name"]; ?>
+			  </a>
+			</div>
+
+		      <?php } ?>
+		    </div>
 
 		  </div>
 		</div>
@@ -298,6 +305,27 @@ include "../elements/comprobation.php";
      thumbInput.onchange = () => {
 	 injectThumb.src = thumbInput.value
      }
+
+     <?php for ($i = 0; $i < sizeof($sections); $i++) { ?>
+     $("#sortable-<?php echo $i; ?>").sortable({
+	 update: () => {
+	     update<?php echo $i; ?>()
+	 }
+     })
+
+     function update<?php echo $i; ?>() {
+	 var arr = $("#sortable-<?php echo $i; ?>").sortable("toArray");
+
+	 for (var i = 0; i < arr.length; i++) {
+	     var lessonId = arr[i]
+	     var order = i+1
+
+	     $.get("/api/private/lessons/updateOrder.php", { lesson: lessonId, order: order }).done((data) => {
+		 //alert(data)
+	     })
+	 }
+     }
+     <?php } ?>
  }
 </script>
 

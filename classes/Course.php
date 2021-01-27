@@ -32,6 +32,30 @@ class Course {
 	return $total;
     }
 
+    public function getLastLessonOrder($sectionId, $courseId=null) {
+	$course = $this->id;
+
+	if ($courseId != null) {
+	    $course = $courseId;
+	}
+
+	$stmt = $this->conn->prepare("SELECT showOrder FROM courses_lessons WHERE sectionId=? AND courseId=? ORDER BY id DESC LIMIT 1");
+	$stmt->bind_param("ii", $sectionId, $course);
+	$stmt->execute();
+	$stmt->store_result();
+	$stmt->bind_result($order);
+	$stmt->fetch();
+
+	if ($stmt->num_rows == 0) {
+	    $order = -1;
+	}
+	$stmt->close();
+
+	$order += 1;
+
+	return $order;
+    }
+
     public function getCourse($courseId=null) {
 	$course = [];
 
@@ -231,8 +255,10 @@ class Course {
 
 	$canProceed = 1;
 
-	$stmt = $this->conn->prepare("INSERT INTO courses_lessons(name,content,video,sectionId,courseId) VALUES(?,?,?,?,?)");
-	$stmt->bind_param("sssii", $data["name"], $data["content"], $data["video"], $sectionId, $course);
+	$order = $this->getLastLessonOrder($sectionId);
+
+	$stmt = $this->conn->prepare("INSERT INTO courses_lessons(name,content,video,showOrder,sectionId,courseId) VALUES(?,?,?,?,?,?)");
+	$stmt->bind_param("sssiii", $data["name"], $data["content"], $data["video"], $order, $sectionId, $course);
 	if ($stmt->execute()) {
 	    $stmt->close();
 	} else {
@@ -279,7 +305,7 @@ class Course {
 	    $select .= ",content,video";
 	}
 
-	$stmt = $this->conn->prepare("SELECT " . $select . " FROM courses_lessons WHERE sectionId=? AND courseId=? ORDER BY id ASC");
+	$stmt = $this->conn->prepare("SELECT " . $select . " FROM courses_lessons WHERE sectionId=? AND courseId=? ORDER BY showOrder ASC");
 	$stmt->bind_param("ii", $sectionId, $course);
 	$stmt->execute();
 	if ($depth == 1) {

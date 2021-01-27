@@ -30,6 +30,7 @@
 	</div>
 
 	<script src="/public/vendor/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="/public/vendor/popper.min.js"></script>
 	<script src="/public/vendor/bootstrap.min.js"></script>
 	<script src="/public/vendor/perfect-scrollbar.min.js"></script>
