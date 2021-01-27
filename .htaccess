@@ -18,3 +18,4 @@ RewriteRule ^section/add/$ pages/tutor/courses/addSection.php?id= [NC,L]
 RewriteRule ^section/add/(.*)$ pages/tutor/courses/addSection.php?id=$1 [NC,L]
 
 RewriteRule ^course/addLesson/([0-9]+)$ pages/tutor/courses/addLesson.php?section=$1 [NC,L]
+RewriteRule ^course/editLesson/([0-9]+)$ pages/tutor/courses/editLesson.php?lesson=$1 [NC,L]

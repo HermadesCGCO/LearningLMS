@@ -1,5 +1,9 @@
 <?php
 
+// TODO:
+// Eliminar/editar secciones
+// youlearn
+
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/config.php";
 include $_SERVER["DOCUMENT_ROOT"] . "/classes/Course.php";
 
@@ -163,7 +167,7 @@ include "../elements/comprobation.php";
 			  <i class="material-icons text-70 icon-16pt icon--left">
 			    drag_handle
 			  </i>
-			  <a class="flex" href="#">
+			  <a class="flex" href="/course/editLesson/<?php echo $lessons[$j]["id"]; ?>">
 			    <?php echo $lessons[$j]["name"]; ?>
 			  </a>
 			</div>
