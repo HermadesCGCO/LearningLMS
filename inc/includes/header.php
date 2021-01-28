@@ -46,7 +46,7 @@
 	     data-caret="true">Explorar</a>
 
 	  <div class="dropdown-menu">
-	    <a href="#" class="dropdown-item">Cursos</a>
+	    <a href="/explore" class="dropdown-item">Cursos</a>
 	    <a href="#" class="dropdown-item">Paths</a>
 	    <a href="#" class="dropdown-item">Shows</a>
 	    <a href="#" class="dropdown-item">Tutores</a>
@@ -227,7 +227,7 @@
 	  completamente gratuita.
 	</p>
 
-	<a href="#" class="btn btn-lg btn-white btn--raised mb-16pt">
+	<a href="/explore" class="btn btn-lg btn-white btn--raised mb-16pt">
 	  Explorar
 	</a>
 

@@ -1,29 +1,35 @@
-Terminar la pagina principal
-Explorar cursos
-Explorar paths
-Panel de control del estudiante
-Mis cursos (pagina donde se guarda el progreso de cada estudiante)
-Mis paths (lo mismo que los cursos, pero con paths)
-Course Preview (basicamente la pagina de cada curso)
-Leccion (pagina donde se ve la leccion)
-Mis quizzes (pagina donde se ven los quizzes de cada estudiante)
+Misc:
 
-Skill Assessment (>- Tengo una idea y es hacer examenes largos que nos permitan
-calcular la habilidad o el conocimiento de los estudiantes para asi trabajar en
-un sistema de recomendacion de cursos - aunque significaria mucho trabajo y
-probablemente no lo haga, al menos no es mi prioridad ahora)
+- Podria mover el course card a una funcion para asi evitar escribir el mismo
+  codigo varias veces?
 
-Sistema de mensajeria entre tutor y estudiante
-Blog
-Entrada de blog
-Sistema de comentarios en cada entrada de Blog
+Paginas:
+- Terminar la pagina principal
+- Explorar cursos
+- Explorar paths
+- Panel de control del estudiante
+- Mis cursos (pagina donde se guarda el progreso de cada estudiante)
+- Mis paths (lo mismo que los cursos, pero con paths)
+- Course Preview (basicamente la pagina de cada curso)
+- Leccion (pagina donde se ve la leccion)
+- Mis quizzes (pagina donde se ven los quizzes de cada estudiante)
 
-Reestablecer contrasena
-Cambiar contrasena
-Editar cuenta
+-Skill Assessment (>- Tengo una idea y es hacer examenes largos que nos permitan
+ calcular la habilidad o el conocimiento de los estudiantes para asi trabajar en
+ un sistema de recomendacion de cursos - aunque significaria mucho trabajo y
+ probablemente no lo haga, al menos no es mi prioridad ahora)
 
-Explorar Tutores
-FAQ
-Centro de ayuda
-Terminos de servicio
-Politicas de privacidad
+- Sistema de mensajeria entre tutor y estudiante
+- Blog
+- Entrada de blog
+- Sistema de comentarios en cada entrada de Blog
+
+- Reestablecer contrasena
+- Cambiar contrasena
+- Editar cuenta
+
+- Explorar Tutores
+- FAQ
+- Centro de ayuda
+- Terminos de servicio
+- Politicas de privacidad

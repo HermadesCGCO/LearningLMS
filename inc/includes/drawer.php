@@ -66,7 +66,7 @@
 	</li>
 
 	<li class="sidebar-menu-item">
-	  <a class="sidebar-menu-button" href="#">
+	  <a class="sidebar-menu-button" href="/explore">
 	    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">
 	      local_library
 	    </span>
