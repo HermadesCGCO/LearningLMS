@@ -110,7 +110,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	  <input class="form-check-input" type="checkbox" id="movil"
 		 name="movil">
 	  <label class="form-check-label" for="movil">
-	    Desarollo de aplicaciones mobiles
+	    Desarollo de aplicaciones móviles
 	  </label>
 	</div>
 
@@ -118,14 +118,14 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	  <input class="form-check-input" type="checkbox" id="Programacion"
 		 name="programming">
 	  <label class="form-check-label" for="Programacion">
-	    Programacion
+	    Programación
 	  </label>
 	</div>
 
 	<div class="form-check mb-4">
-	  <input class="form-check-input" type="checkbox" id="ml"
-		 name="ml">
-	  <label class="form-check-label" for="ml">Machine Learning</label>
+	  <input class="form-check-input" type="checkbox" id="linux"
+		 name="linux">
+	  <label class="form-check-label" for="linux">Linux</label>
 	</div>
 
 	<button class="btn btn-primary" type="submit" name="learning">Actualizar</button>

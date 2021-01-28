@@ -56,9 +56,9 @@ class User {
 
 	    $stmt = $this->conn->prepare("INSERT INTO users(name, lastname, email, password, registrationDate) VALUES(?, ?, ?, ?, ?)");
 	    $stmt->bind_param("sssss",
-			      $data["name"],
-			      $data["lastname"],
-			      $data["email"],
+			      htmlspecialchars($data["name"]),
+			      htmlspecialchars($data["lastname"]),
+			      htmlspecialchars($data["email"]),
 			      $finalPass,
 			      $date);
 
@@ -130,9 +130,9 @@ class User {
 
 	$stmt = $this->conn->prepare("UPDATE users SET name=?,lastname=?,email=? WHERE name=?");
 	$stmt->bind_param("ssss",
-			  $data["name"],
-			  $data["lastname"],
-			  $data["email"],
+			  htmlspecialchars($data["name"]),
+			  htmlspecialchars($data["lastname"]),
+			  htmlspecialchars($data["email"]),
 			  $this->user
 	);
 	if ($stmt->execute()) {
@@ -148,19 +148,19 @@ class User {
 	$learning = "";
 
 	if (isset($data["web"])) {
-	    $learning .= "web,";
+	    $learning .= "Desarrollo web,";
 	}
 	if (isset($data["hacking"])) {
-	    $learning .= "hacking,";
+	    $learning .= "Hacking,";
 	}
 	if (isset($data["movil"])) {
-	    $learning .= "movil,";
+	    $learning .= "Desarrollo aplicaciones móviles,";
 	}
 	if (isset($data["programming"])) {
-	    $learning .= "programming,";
+	    $learning .= "Programación,";
 	}
-	if (isset($data["ml"])) {
-	    $learning .= "ml,";
+	if (isset($date["linux"])) {
+	    $learning .="Linux,";
 	}
 
 	$stmt = $this->conn->prepare("UPDATE users SET wantlearn=? WHERE name=?");

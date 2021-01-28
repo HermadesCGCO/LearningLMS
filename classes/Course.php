@@ -111,10 +111,10 @@ class Course {
 
 	$stmt = $this->conn->prepare("INSERT INTO courses(name,shortDesc,description,thumb,difficulty,category,duration,lastUpdated,tutor) VALUES(?,?,?,?,?,?,?,?,?)");
 	$stmt->bind_param("ssssssiss",
-			  $data["name"],
-			  $data["shortDesc"],
-			  $data["description"],
-			  $data["thumb"],
+			  htmlspecialchars($data["name"]),
+			  htmlspecialchars($data["shortDesc"]),
+			  htmlspecialchars($data["description"]),
+			  htmlspecialchars($data["thumb"]),
 			  $data["difficulty"],
 			  $data["category"],
 			  $data["duration"],
@@ -127,7 +127,7 @@ class Course {
 
 	    $stmt = $this->conn->prepare("SELECT id FROM courses WHERE name=? AND tutor=? ORDER BY id DESC LIMIT 1");
 	    $stmt->bind_param("ss",
-			      $data["name"],
+			      htmlspecialchars($data["name"]),
 			      $tutor
 	    );
 	    $stmt->execute();
@@ -155,10 +155,10 @@ class Course {
 
 	$stmt = $this->conn->prepare($query);
 	$stmt->bind_param("ssssssisi",
-			  $data["name"],
-			  $data["shortDesc"],
-			  $data["description"],
-			  $data["thumb"],
+			  htmlspecialchars($data["name"]),
+			  htmlspecialchars($data["shortDesc"]),
+			  htmlspecialchars($data["description"]),
+			  htmlspecialchars($data["thumb"]),
 			  $data["difficulty"],
 			  $data["category"],
 			  $data["duration"],
@@ -260,7 +260,13 @@ class Course {
 	$order = $this->getLastLessonOrder($sectionId);
 
 	$stmt = $this->conn->prepare("INSERT INTO courses_lessons(name,content,video,showOrder,sectionId,courseId) VALUES(?,?,?,?,?,?)");
-	$stmt->bind_param("sssiii", $data["name"], $data["content"], $data["video"], $order, $sectionId, $course);
+	$stmt->bind_param("sssiii",
+			  htmlspecialchars($data["name"]),
+			  htmlspecialchars($data["content"]),
+			  htmlspecialchars($data["video"]),
+			  $order,
+			  $sectionId,
+			  $course);
 	if ($stmt->execute()) {
 	    $stmt->close();
 	} else {
