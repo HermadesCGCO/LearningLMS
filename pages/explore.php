@@ -3,6 +3,11 @@
 $pageTitle = "Explorar";
 
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/config.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/classes/Course.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/functions/drawCourseCard.php";
+
+$course = new Course($conn);
+
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 ?>
@@ -18,7 +23,79 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	</div>
       </div>
 
-      <div class="row card-group-row"></div>
+      <div class="row card-group-row">
+
+	<?php
+
+	$popular = $course->getPopularCourses(4);
+
+	for ($i = 0; $i < sizeof($popular); $i++) {
+	    $course->linkCourse($popular[$i]);
+	    $info = $course->getCourse();
+	    $youlearn = $course->getYouLearn(2);
+
+	    echo drawCourseCard($info, $youlearn);
+	}
+
+	?>
+
+      </div>
+
+      <div class="page-separator">
+	<div class="page-separator__text">
+	  Cursos Destacados
+	</div>
+      </div>
+
+      <div class="row card-group-row">
+	<?php
+
+	$featured = $course->getFeaturedCourses(4);
+
+	for ($i = 0; $i < sizeof($featured); $i++) {
+	    $course->linkCourse($featured[$i]);
+	    $info = $course->getCourse();
+	    $youlearn = $course->getYouLearn(4);
+
+	    echo drawCourseCard($info, $youlearn);
+	}
+
+	?>
+      </div>
+
+      <?php
+
+      $categories = $course->getCategories();
+
+      for ($i = 0; $i < sizeof($categories); $i++) {
+
+      ?>
+
+	<div class="page-separator">
+	  <div class="page-separator__text">
+	    <?php echo $categories[$i]; ?>
+	  </div>
+	</div>
+
+	<div class="row card-group-row">
+
+	  <?php
+
+	  $courses = $course->getCoursesFromCategory($categories[$i], 4);
+
+	  for ($j = 0; $j < sizeof($courses); $j++) {
+	      $course->linkCourse($courses[$j]);
+	      $info = $course->getCourse();
+	      $youlearn = $course->getYouLearn(4);
+
+	      echo drawCourseCard($info, $youlearn);
+	  ?>
+
+	  <?php } ?>
+
+	</div>
+
+      <?php } ?>
 
     </div>
   </div>

@@ -17,7 +17,7 @@ if (!$course->courseExists()) {
 }
 
 if (isset($_POST["create"])) {
-    $result = $course->createSection($_POST["name"]);
+    $result = $course->createSection(htmlspecialchars($_POST["name"]));
 
     if (!is_array($result)) {
 	header("Location: /courses/edit/" . $_GET["id"]);

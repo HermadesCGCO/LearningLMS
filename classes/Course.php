@@ -358,6 +358,45 @@ class Course {
 	return $courses;
     }
 
+    public function getPopularCourses($limitCourses=0) {
+	$courses = [];
+	$limit = "";
+
+	if ($limitCourses > 0) {
+	    $limit = " LIMIT " . $limitCourses;
+	}
+
+	$stmt = $this->conn->prepare("SELECT id FROM courses ORDER BY students DESC" . $limit);
+	$stmt->execute();
+	$stmt->bind_result($id);
+	while ($stmt->fetch()) {
+	    $courses[] = $id;
+	}
+	$stmt->close();
+
+	return $courses;
+    }
+
+    public function getCoursesFromCategory($category, $limitCourses=0) {
+	$courses = [];
+	$limit = "";
+
+	if ($limitCourses > 0) {
+	    $limit = " LIMIT " . $limitCourses;
+	}
+
+	$stmt = $this->conn->prepare("SELECT id FROM courses WHERE category=?" . $limit);
+	$stmt->bind_param("s", $category);
+	$stmt->execute();
+	$stmt->bind_result($id);
+	while ($stmt->fetch()) {
+	    $courses[] = $id;
+	}
+	$stmt->close();
+
+	return $courses;
+    }
+
     public function deleteCourse($courseId=null) {
 	$course = $this->id;
 
