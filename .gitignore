@@ -1,7 +1,6 @@
 media/*
 media
 *.swp
-db.sql
 *~
 \#*\#
 .\#*
