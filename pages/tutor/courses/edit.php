@@ -24,6 +24,8 @@ if ($course->courseExists()) {
     $type = "create";
 }
 
+$youlearn = $course->getYoulearn();
+
 if (isset($_POST["save"])) {
     if ($type == "update") {
 	$result = $course->updateCourse($_POST);
@@ -56,7 +58,9 @@ if (isset($_POST["delete"])) {
     }
 }
 
-$pageTitle = $info["name"] . " - Editar";
+$name = (!empty($info["name"])) ? $info["name"] : "Crear curso";
+
+$pageTitle = $name . " - Editar";
 
 $includeTinyMCE = 1;
 
