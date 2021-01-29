@@ -21,3 +21,7 @@ RewriteRule ^course/addLesson/([0-9]+)$ pages/tutor/courses/addLesson.php?sectio
 RewriteRule ^course/editLesson/([0-9]+)$ pages/tutor/courses/editLesson.php?lesson=$1 [NC,L]
 
 RewriteRule ^explore$ pages/explore.php [NC,L]
+RewriteRule ^explore/$ page/explore.php [NC,L]
+
+RewriteRule ^course/([0-9]+)$ pages/course.php?id=$1 [NC,L]
+RewriteRule ^course/([0-9]+)/$ pages/course.php?id=$1 [NC,L]

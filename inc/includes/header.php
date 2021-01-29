@@ -89,6 +89,10 @@
       <!-- End Top Menu -->
 
       <?php if (!isset($_SESSION["name"])) { ?>
+	<!-- TODO: Para tanto login como signup crear una nueva variable
+	     que sera enviada por get, esta variable seria REQUEST_URI y
+	     una vez se inicie sesion o se cree una cuenta, llevar al usuario
+	     de vuelta a esa pagina. -->
 	<ul class="nav navbar-nav ml-auto mr-0">
 	  <li class="nav-item">
 	    <a href="/login" class="nav-link" data-toggle="tooltip"
