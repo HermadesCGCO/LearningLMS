@@ -124,6 +124,123 @@ include "../elements/comprobation.php";
 	    </div>
 
 	    <div class="page-separator">
+	      <div class="page-separator__text">
+		¿Qué aprenderá el estudiante?
+	      </div>
+	    </div>
+
+	    <div class="row" id="injectYoulearn">
+	      <!-- TODO: Al crear un nuevo youlearn, el API si se creo de
+		   manera exitosa, devuelve el ID del youlearn creado,
+		   luego, se anade el valor devuelto al ID del elemento. -->
+	      <?php
+
+	      for ($i = 0; $i < sizeof($youlearn); $i++) {
+
+	      ?>
+		<div id="deletable-<?php echo $youlearn[$i]["id"]; ?>" class="row col-md-12">
+		  <div class="col-md-10 form-group">
+		    <input type="text" class="form-control"
+			   id="text-<?php echo $youlearn[$i]["id"]; ?>"
+			   value="<?php echo $youlearn[$i]["content"]; ?>">
+		  </div>
+		  <div class="col-md-2 form-group">
+		    <input type="button" class="btn btn-accent" value="Eliminar"
+			   id="delete-<?php echo $youlearn[$i]["id"]; ?>">
+		  </div>
+		</div>
+
+		<script>
+		 var text<?php echo $youlearn[$i]["id"]; ?> =
+		     document.getElementById("text-<?php echo $youlearn[$i]["id"]; ?>")
+		 var trash<?php echo $youlearn[$i]["id"]; ?> =
+		     document.getElementById("delete-<?php echo $youlearn[$i]["id"]; ?>")
+		 var deletable<?php echo $youlearn[$i]["id"]; ?> =
+		     document.getElementById("deletable-<?php echo $youlearn[$i]["id"]; ?>");
+
+		 text<?php echo $youlearn[$i]["id"]; ?>.onchange = () => {
+		     updateYouLearn("<?php echo $youlearn[$i]["id"]; ?>",
+				    text<?php echo $youlearn[$i]["id"]; ?>.value
+		     )
+		 }
+
+		 trash<?php echo $youlearn[$i]["id"]; ?>.onclick = () => {
+		     deleteYouLearn(
+			 <?php echo $youlearn[$i]["id"]; ?>,
+			 deletable<?php echo $youlearn[$i]["id"]; ?>
+		     )
+		 }
+		</script>
+	      <?php } ?>
+
+	    </div>
+
+	    <input type="button" class="btn btn-primary mb-3" value="Nuevo"
+		   id="newYoulearn">
+
+	    <script>
+	     // TODO: Optimizar esto
+
+	     var newYoulearn = document.getElementById("newYoulearn")
+	     var inject = document.getElementById("injectYoulearn")
+
+	     newYoulearn.onclick = () => {
+		 if (document.getElementById("createdYoulearn") === null) {
+		     // TODO: Inject youlearn
+
+		     var elm = document.createElement("div")
+		     elm.id = "createdYoulearn"
+		     elm.className = "row col-md-12"
+		     elm.innerHTML = `
+<div class="col-md-10 form-group">
+	     <input type="text" class="form-control"
+		    onchange="updateNewYoulearn()"
+		    id="newYoulearnText">
+</div>
+<div class="col-md-2 form-group">
+	     <input type="button" class="btn btn-primary"
+		    value="Cancelar" onclick="cancelNewYouLearn()"
+		    id="cancelNewYoulearn">
+</div>
+		     `
+
+		     inject.appendChild(elm)
+		 }
+	     }
+
+	     function updateNewYoulearn() {
+		 var newTextContent = document.getElementById("newYoulearnText")
+
+		 $.get("/api/private/courses/createYoulearn.php", {
+		     content: newTextContent.value,
+		     course: <?php echo $_GET["id"]; ?>
+		 }).done((data) => {
+		     if (data != "Error") {
+			 var created = document.getElementById("createdYoulearn")
+			 created.id = "deletable-" + data
+
+			 var cancelButton = document.getElementById("cancelNewYoulearn")
+			 cancelButton.id = "delete-" + data
+			 cancelButton.className = "btn btn-accent"
+			 cancelButton.value = "Eliminar"
+
+			 cancelButton.onclick = () => {
+			     deleteYouLearn(
+				 data,
+				 created
+			     )
+			 }
+		     }
+		 })
+	     }
+
+	     function cancelNewYouLearn() {
+		 var created = document.getElementById("createdYoulearn")
+		 created.parentNode.removeChild(created)
+	     }
+	    </script>
+
+	    <div class="page-separator">
 	      <div class="page-separator__text">Secciones</div>
 	    </div>
 
@@ -337,6 +454,23 @@ include "../elements/comprobation.php";
 	 }
      }
      <?php } ?>
+ }
+
+ function updateYouLearn(id, content) {
+     $.get("/api/private/courses/updateYoulearn.php", {
+	 id: id,
+	 content: content
+     })
+ }
+
+ function deleteYouLearn(id, element) {
+     $.get("/api/private/courses/deleteYoulearn.php", {
+	 id: id
+     }).done((data) => {
+	 if (data == "1") {
+	     element.innerHTML = ""
+	 }
+     })
  }
 </script>
 

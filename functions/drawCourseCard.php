@@ -18,7 +18,7 @@ function drawCourseCard($info, $youlearn, $textVisit="Visitar", $url="default") 
     mr-8pt">check</span>
 
   <p class="flex text-50 lh-l mb-0">
-    <small>'. $youlearn[$i] .'</small>
+    <small>'. $youlearn[$i]["content"] .'</small>
   </p>
 
 </div>

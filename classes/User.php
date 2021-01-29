@@ -52,13 +52,18 @@ class User {
 	}
 
 	if ($canProceed) {
-	    $data["email"] = strtolower($data["email"]);
+
+	    $name = htmlspecialchars($data["name"]);
+	    $lastname = htmlspecialchars($data["lastname"]);
+	    $email = htmlspecialchars($data["email"]);
+
+	    $email = strtolower($email);
 
 	    $stmt = $this->conn->prepare("INSERT INTO users(name, lastname, email, password, registrationDate) VALUES(?, ?, ?, ?, ?)");
 	    $stmt->bind_param("sssss",
-			      htmlspecialchars($data["name"]),
-			      htmlspecialchars($data["lastname"]),
-			      htmlspecialchars($data["email"]),
+			      $name,
+			      $lastname,
+			      $email,
 			      $finalPass,
 			      $date);
 
@@ -126,13 +131,17 @@ class User {
     }
 
     public function updateInfo($data) {
-	$data["email"] = strtolower($data["email"]);
+	$name = htmlspecialchars($data["name"]);
+	$lastname = htmlspecialchars($data["lastname"]);
+	$email = htmlspecialchars($data["email"]);
+
+	$email = strtolower($email);
 
 	$stmt = $this->conn->prepare("UPDATE users SET name=?,lastname=?,email=? WHERE name=?");
 	$stmt->bind_param("ssss",
-			  htmlspecialchars($data["name"]),
-			  htmlspecialchars($data["lastname"]),
-			  htmlspecialchars($data["email"]),
+			  $name,
+			  $lastname,
+			  $email,
 			  $this->user
 	);
 	if ($stmt->execute()) {

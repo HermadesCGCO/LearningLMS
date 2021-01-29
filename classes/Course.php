@@ -109,12 +109,17 @@ class Course {
     public function createCourse($data, $tutor) {
 	$lastUpdated = date("m/Y");
 
+	$name = htmlspecialchars($data["name"]);
+	$shortDesc = htmlspecialchars($data["shortDesc"]);
+	$description = htmlspecialchars($data["description"]);
+	$thumb = htmlspecialchars($data["thumb"]);
+
 	$stmt = $this->conn->prepare("INSERT INTO courses(name,shortDesc,description,thumb,difficulty,category,duration,lastUpdated,tutor) VALUES(?,?,?,?,?,?,?,?,?)");
 	$stmt->bind_param("ssssssiss",
-			  htmlspecialchars($data["name"]),
-			  htmlspecialchars($data["shortDesc"]),
-			  htmlspecialchars($data["description"]),
-			  htmlspecialchars($data["thumb"]),
+			  $name,
+			  $shortDesc,
+			  $description,
+			  $thumb,
 			  $data["difficulty"],
 			  $data["category"],
 			  $data["duration"],
@@ -127,7 +132,7 @@ class Course {
 
 	    $stmt = $this->conn->prepare("SELECT id FROM courses WHERE name=? AND tutor=? ORDER BY id DESC LIMIT 1");
 	    $stmt->bind_param("ss",
-			      htmlspecialchars($data["name"]),
+			      $name,
 			      $tutor
 	    );
 	    $stmt->execute();
@@ -151,14 +156,20 @@ class Course {
 
 	$lastUpdated = date("m/Y");
 
+	$name = htmlspecialchars($data["name"]);
+	$shortDesc = htmlspecialchars($data["shortDesc"]);
+	$description = htmlspecialchars($data["description"]);
+	$thumb = htmlspecialchars($data["thumb"]);
+
+
 	$query = "UPDATE courses SET name=?,shortDesc=?,description=?,thumb=?,difficulty=?,category=?,duration=?,lastUpdated=? WHERE id=?";
 
 	$stmt = $this->conn->prepare($query);
 	$stmt->bind_param("ssssssisi",
-			  htmlspecialchars($data["name"]),
-			  htmlspecialchars($data["shortDesc"]),
-			  htmlspecialchars($data["description"]),
-			  htmlspecialchars($data["thumb"]),
+			  $name,
+			  $shortDesc,
+			  $description,
+			  $thumb,
 			  $data["difficulty"],
 			  $data["category"],
 			  $data["duration"],
@@ -174,8 +185,9 @@ class Course {
 
     public function getYouLearn($limit = 0) {
 	$things = [];
+	$i = 0;
 
-	$query = "SELECT content FROM courses_youlearn WHERE course=?";
+	$query = "SELECT id,content FROM courses_youlearn WHERE course=?";
 
 	if ($limit > 0) {
 	    $query .= " LIMIT " . $limit;
@@ -184,9 +196,12 @@ class Course {
 	$stmt = $this->conn->prepare($query);
 	$stmt->bind_param("i", $this->id);
 	$stmt->execute();
-	$stmt->bind_result($content);
+	$stmt->bind_result($id, $content);
 	while ($stmt->fetch()) {
-	    $things[] = $content;
+	    $things[$i]["id"] = $id;
+	    $things[$i]["content"] = $content;
+
+	    $i++;
 	}
 	$stmt->close();
 
@@ -259,11 +274,15 @@ class Course {
 
 	$order = $this->getLastLessonOrder($sectionId);
 
+	$name = htmlspecialchars($data["name"]);
+	$content = htmlspecialchars($data["content"]);
+	$video = htmlspecialchars($data["video"]);
+
 	$stmt = $this->conn->prepare("INSERT INTO courses_lessons(name,content,video,showOrder,sectionId,courseId) VALUES(?,?,?,?,?,?)");
 	$stmt->bind_param("sssiii",
-			  htmlspecialchars($data["name"]),
-			  htmlspecialchars($data["content"]),
-			  htmlspecialchars($data["video"]),
+			  $name,
+			  $content,
+			  $video,
 			  $order,
 			  $sectionId,
 			  $course);

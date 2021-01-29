@@ -81,11 +81,15 @@ class Lesson {
 	    $lesson = $lessonId;
 	}
 
+	$name = htmlspecialchars($data["name"]);
+	$content = htmlspecialchars($data["content"]);
+	$video = htmlspecialchars($data["video"]);
+
 	$stmt = $this->conn->prepare("UPDATE courses_lessons SET name=?,content=?,video=? WHERE id=?");
 	$stmt->bind_param("sssi",
-			  htmlspecialchars($data["name"]),
-			  htmlspecialchars($data["content"]),
-			  htmlspecialchars($data["video"]),
+			  $name,
+			  $content,
+			  $video,
 			  $lesson);
 	if ($stmt->execute()) {
 	    $stmt->close();
