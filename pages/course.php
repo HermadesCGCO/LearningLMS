@@ -2,6 +2,7 @@
 
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/config.php";
 include $_SERVER["DOCUMENT_ROOT"] . "/classes/Course.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/classes/Tutor.php";
 
 if (!isset($_GET["id"]) || empty($_GET["id"])) {
     header("Location: /");
@@ -17,6 +18,9 @@ if (!$course->courseExists()) {
 }
 
 $info = $course->getCourse();
+
+$tutor = new Tutor($conn, $info["tutor"]);
+$tutorInfo = $tutor->getInfo();
 
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
@@ -205,7 +209,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	    <div class="page-separator__text">Sobre este curso</div>
 	  </div>
 	  <?php
-	  echo $info["description"];
+	  echo htmlspecialchars_decode($info["description"]);
 	  ?>
 	</div>
 
@@ -225,8 +229,8 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 	      <li class="d-flex align-items-center">
 		<span class="material-icons text-50 mr-8pt">check</span>
-		<span class="text-70">
-		  <?php echo $youlearn[$i]; ?>
+		<span class="text">
+		  <?php echo $youlearn[$i]["content"]; ?>
 		</span>
 	      </li>
 
@@ -246,11 +250,54 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 	<div class="col-md-7 mb-24pt mb-md-0">
 	  <h4>Acerca del tutor</h4>
-	  <p>TODO: Si el tutor no ha actualizado su Información, mostrar un texto tipo
-	    "Este tutor aun no ha establecido información sobre el"</p>
+	  <?php
+
+	  if (!empty($tutorInfo["description"])) {
+	      echo htmlspecialchars_decode($tutorInfo["description"]);
+	  } else {
+	      echo "<p>Este tutor es perezoso y aún no escribe una presentación
+para nostros</p>";
+	  }
+
+	  ?>
 	</div>
 
-	<div class="col-md-5 mb-24pt mb-md-0">
+	<div class="col-md-5 pt-sm-32pt pt-md-0 d-flex flex-column align-items-center
+		    justify-content-start">
+	  <div class="text-center">
+
+	    <!-- TODO: Profile picture -->
+	    <p class="avatar avatar-lg mr-8pt2">
+	      <span class="avatar-title rounded-circle bg-primary">
+		<i class="material-icons" style="font-size: 40px;">account_box</i>
+	      </span>
+	    </p>
+
+	    <h4 class="m-0"><?php echo $info["tutor"]; ?></h4>
+
+	    <p class="lb-1">
+	      <small class="text-muted">
+		<?php echo $tutorInfo["shortDesc"]; ?>
+	      </small>
+	    </p>
+
+	    <div class="d-flex flex-column flex-sm-row align-items-center
+			justify-content-start">
+
+	      <!-- TODO: Tutor profile -->
+
+	      <a href="#" class="btn btn-outline-primary mb-16pt
+		       mb-sm-0 mr-sm-16pt">
+		Seguir
+	      </a>
+
+	      <a href="#" class="btn btn-outline-secondary">
+		Ver perfil
+	      </a>
+
+	    </div>
+
+	  </div>
 	</div>
 
       </div>
