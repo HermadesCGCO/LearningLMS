@@ -212,6 +212,10 @@
 	      <a class="dropdown-item" href="/tutor/courses">
 		Gestor de cursos
 	      </a>
+
+	      <a class="dropdown-item" href="/tutor/updateInformation">
+		Actualizar mi información
+	      </a>
 	      <?php } ?>
 
 	    </div>

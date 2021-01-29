@@ -25,3 +25,6 @@ RewriteRule ^explore/$ page/explore.php [NC,L]
 
 RewriteRule ^course/([0-9]+)$ pages/course.php?id=$1 [NC,L]
 RewriteRule ^course/([0-9]+)/$ pages/course.php?id=$1 [NC,L]
+
+RewriteRule ^tutor/updateInformation pages/tutor/editAccount.php [NC,L]
+RewriteRule ^tutor/updateInformation/ pages/tutor/editAccount.php [NC,L]

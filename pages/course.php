@@ -246,6 +246,8 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 	<div class="col-md-7 mb-24pt mb-md-0">
 	  <h4>Acerca del tutor</h4>
+	  <p>TODO: Si el tutor no ha actualizado su Información, mostrar un texto tipo
+	    "Este tutor aun no ha establecido información sobre el"</p>
 	</div>
 
 	<div class="col-md-5 mb-24pt mb-md-0">

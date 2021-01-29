@@ -33,6 +33,63 @@ class Tutor {
 	return $courses;
     }
 
+    public function hasInfo() {
+	$stmt = $this->conn->prepare("SELECT id FROM tutorInfo WHERE tutor=? LIMIT 1");
+	$stmt->bind_param("s", $this->name);
+	$stmt->execute();
+	$stmt->store_result();
+	if ($stmt->num_rows > 0) {
+	    $stmt->close();
+	    return 1;
+	} else {
+	    $stmt->close();
+	    return 0;
+	}
+    }
+
+    public function getInfo() {
+	$info = [];
+
+	$stmt = $this->conn->prepare("SELECT * FROM tutorInfo WHERE tutor=? LIMIT 1");
+	$stmt->bind_param("s", $this->name);
+	$stmt->execute();
+	$stmt->bind_result(
+	    $id,
+	    $tutor,
+	    $shortDesc,
+	    $description
+	);
+	$stmt->fetch();
+	$stmt->close();
+
+	$info["id"] = $id;
+	$info["tutor"] = $tutor;
+	$info["shortDesc"] = $shortDesc;
+	$info["description"] = $description;
+
+	return $info;
+    }
+
+    public function updateInfo($info) {
+	$shortDesc = htmlspecialchars($info["shortDesc"]);
+	$description = htmlspecialchars($info["description"]);
+
+	$stmt = $this->conn->prepare("UPDATE tutorInfo SET shortDesc=?,description=? WHERE tutor=?");
+	$stmt->bind_param("sss", $shortDesc, $description, $this->name);
+	$stmt->execute();
+	$stmt->close();
+    }
+
+    public function createInfo($info) {
+	$shortDesc = htmlspecialchars($info["shortDesc"]);
+	$description = htmlspecialchars($info["description"]);
+
+	$stmt = $this->conn->prepare("INSERT INTO tutorInfo(tutor,shortDesc,description) VALUES(?,?,?)");
+	$stmt->bind_param("sss", $this->name, $shortDesc, $description);
+	$stmt->execute();
+	$stmt->close();
+    }
+
 }
 
 ?>

@@ -1,11 +1,5 @@
-Misc:
-
-- Podria mover el course card a una funcion para asi evitar escribir el mismo
-  codigo varias veces?
-
 Paginas:
 - Terminar la pagina principal
-- Explorar cursos
 - Explorar paths
 - Panel de control del estudiante
 - Mis cursos (pagina donde se guarda el progreso de cada estudiante)

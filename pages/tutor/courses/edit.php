@@ -2,7 +2,6 @@
 
 // TODO:
 // Eliminar/editar secciones
-// youlearn
 
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/config.php";
 include $_SERVER["DOCUMENT_ROOT"] . "/classes/Course.php";
@@ -119,7 +118,7 @@ include "../elements/comprobation.php";
 	    <div class="form-group mb-32pt">
 	      <label class="form-label">Descripción</label>
 	      <textarea id="description" name="description">
-		<?php echo nl2br($info["description"]); ?>
+		<?php echo $info["description"]; ?>
 	      </textarea>
 	    </div>
 
