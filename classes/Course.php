@@ -452,6 +452,26 @@ class Course {
 	return true;
     }
 
+    public function getFirstLesson($courseId=null) {
+	$course = $this->id;
+
+	if ($courseId != null) {
+	    $course = $courseId;
+	}
+
+	$stmt = $this->conn->prepare("SELECT id,sectionID FROM courses_lessons WHERE courseId=? ORDER BY id ASC LIMIT 1");
+	$stmt->bind_param("i", $course);
+	$stmt->execute();
+	$stmt->bind_result($id, $section);
+	$stmt->fetch();
+	$stmt->close();
+
+	return array(
+	    "id" => $id,
+	    "section" => $section
+	);
+    }
+
     public function getCategories() {
 	return [
 	    "Hacking",

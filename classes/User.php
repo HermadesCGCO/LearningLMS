@@ -256,6 +256,64 @@ class User {
 	}
     }
 
+    public function isUserEnroledInCourse($courseId, $user="") {
+	$toCheck = $this->user;
+
+	if (!empty($user)) {
+	    $toCheck = $user;
+	}
+
+	$stmt = $this->conn->prepare("SELECT id FROM student_progress WHERE courseId=? AND student=?");
+	$stmt->bind_param("is", $courseId, $toCheck);
+	$stmt->execute();
+	$stmt->store_result();
+	if ($stmt->num_rows > 0) {
+	    $stmt->close();
+	    return true;
+	} else {
+	    $stmt->close();
+	    return false;
+	}
+    }
+
+    public function enrolInCourse($courseId, $lesson, $section, $user="") {
+	$toEnrol = $this->user;
+
+	if (!empty($user)) {
+	    $toEnrol =  $user;
+	}
+
+	$stmt = $this->conn->prepare("INSERT INTO student_progress(student, courseId, lessonId, sectionId) VALUES(?,?,?,?)");
+	$stmt->bind_param("siii", $toEnrol, $courseId, $lesson, $section);
+	if ($stmt->execute()) {
+	    $stmt->close();
+	    return true;
+	} else {
+	    $stmt->close();
+	    return false;
+	}
+    }
+
+    public function getCourseProgress($courseId, $user="") {
+	$toGet = $this->user;
+
+	if (!empty($user)) {
+	    $toGet = $user;
+	}
+
+	$stmt = $this->conn->prepare("SELECT lessonId,sectionId FROM student_progress WHERE student=? AND courseId=? LIMIT 1");
+	$stmt->bind_param("si", $toGet, $courseId);
+	$stmt->execute();
+	$stmt->bind_result($lessonId, $sectionId);
+	$stmt->fetch();
+	$stmt->close();
+
+	return array(
+	    "lesson" => $lessonId,
+	    "section" => $sectionId
+	);
+    }
+
 }
 
 ?>

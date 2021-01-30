@@ -22,6 +22,12 @@ $info = $course->getCourse();
 $tutor = new Tutor($conn, $info["tutor"]);
 $tutorInfo = $tutor->getInfo();
 
+if ($user->isUserEnroledInCourse($_GET["id"])) {
+    $enroled = 1;
+}
+
+$progress = $user->getCourseProgress($_GET["id"]);
+
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 ?>
@@ -116,7 +122,11 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	    for ($i = 0; $i < sizeof($sections); $i++) {
 	    ?>
 
-	      <div class="accordion__item">
+	      <div class="accordion__item <?php
+					  if ($progress["section"] == $sections[$i]["id"]) {
+					      echo "open";
+					  }
+					  ?>">
 		<a href="#" class="accordion__toggle"
 		   data-toggle="collapse"
 		   data-target="#course-toc-<?php echo $i; ?>"
@@ -127,7 +137,11 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 		  </span>
 		</a>
 
-		<div class="accordion__menu collapse"
+		<div class="accordion__menu collapse <?php
+						     if ($progress["section"] == $sections[$i]["id"]) {
+							 echo "show";
+						     }
+						     ?>"
 		     id="course-toc-<?php echo $i; ?>">
 
 		  <?php
@@ -140,12 +154,35 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 		  ?>
 
 		    <div class="accordion__menu-link">
-		      <span class="icon-holder icon-holder--small icon-holder--dark
+		      <span class="icon-holder icon-holder--small
+				   <?php
+
+				   if ($progress["lesson"] == $lessons[$j]["id"]) {
+				       echo "icon-holder--primary";
+				   } else if ($progress["lesson"] > $lessons[$j]["id"]) {
+				       echo "icon-holder--default";
+				   } else {
+				       echo "icon-holder--dark";
+				   }
+
+				   ?>
 				   rounded-circle d-inline-flex icon--left">
 			<!-- TODO: Guardar y cargar el progreso de un estudiante
 			     en un curso. Checar si ya termino y completo esta
 			     leccion. -->
-			<i class="material-icons icon-16pt">play_circle_outline</i>
+			<i class="material-icons icon-16pt">
+			  <?php
+
+			  if ($progress["lesson"] == $lessons[$j]["id"]) {
+			      echo "play_circle_outline";
+			  } else if ($progress["lesson"] > $lessons[$j]["id"]) {
+			      echo "check";
+			  } else  {
+			      echo "lock";
+			  }
+
+			  ?>
+			</i>
 		      </span>
 		      <a class="flex" href="#">
 			<?php echo $lessons[$j]["name"]; ?>
@@ -163,37 +200,38 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 	</div>
 
-	<div class="col-md-4">
+	<?php if (!isset($enroled)) { ?>
+	  <div class="col-md-4">
 
-	  <div class="card">
-	    <div class="card-body py-16pt text-center">
-	      <span class="icon-holder icon-holder--outline-secondary
-			   rounded-circle d-inline-flex mb-8pt">
-		<i class="material-icons">play_circle_outline</i>
-	      </span>
-	      <h4 class="card-title"><strong>Toma este curso</strong></h4>
-	      <p class="card-subtitle text-70 mb-24pt">
-		Obtén acceso a sus lecciones, sus quizzes y recursos
-		descargables.
-	      </p>
-	      <?php
+	    <div class="card">
+	      <div class="card-body py-16pt text-center">
+		<span class="icon-holder icon-holder--outline-secondary
+			     rounded-circle d-inline-flex mb-8pt">
+		  <i class="material-icons">play_circle_outline</i>
+		</span>
+		<h4 class="card-title"><strong>Toma este curso</strong></h4>
+		<p class="card-subtitle text-70 mb-24pt">
+		  Obtén acceso a sus lecciones, sus quizzes y recursos
+		  descargables.
+		</p>
+		<?php
 
-	      if (isset($_SESSION["name"])) {
-	      ?>
-		<a href="/login" class="btn btn-accent mb-8pt">
-		  Tomar curso
-		</a>
-	      <?php } else { ?>
-		<p class="mb-0">Para tomar este curso necesitas una cuenta,
-		  pero no te preocupes, es gratis, no tendrás que pagar
-		  nada.</p>
-		<p class="mb-0">Crea tu cuenta <a href="/signup">aquí</a></p>
-	      <?php } ?>
+		if (isset($_SESSION["name"])) {
+		?>
+		  <a href="/takeCourse/<?php echo $_GET["id"]; ?>" class="btn btn-accent mb-8pt">
+		    Tomar curso
+		  </a>
+		<?php } else { ?>
+		  <p class="mb-0">Para tomar este curso necesitas una cuenta,
+		    pero no te preocupes, es gratis, no tendrás que pagar
+		    nada.</p>
+		  <p class="mb-0">Crea tu cuenta <a href="/signup">aquí</a></p>
+		<?php } ?>
+	      </div>
 	    </div>
+
 	  </div>
-
-	</div>
-
+	<?php } ?>
       </div>
 
     </div>
