@@ -19,7 +19,13 @@ if (isset($_POST["submit"])) {
 
     if ($login) {
 	$_SESSION["name"] = $login;
-	header("Location: /");
+
+	if (!isset($_GET["previous"])) {
+	    header("Location: /");
+	} else {
+	    header("Location: " . $_GET["previous"]);
+	}
+
 	exit();
     }
 }

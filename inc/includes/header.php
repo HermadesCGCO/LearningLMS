@@ -95,7 +95,7 @@
 	     de vuelta a esa pagina. -->
 	<ul class="nav navbar-nav ml-auto mr-0">
 	  <li class="nav-item">
-	    <a href="/login" class="nav-link" data-toggle="tooltip"
+	    <a href="/login?previous=<?php echo $_SERVER["REQUEST_URI"]; ?>" class="nav-link" data-toggle="tooltip"
 	       data-title="Iniciar sesión" data-placement="bottom"
 	       data-boundary="window">
 	      <i class="material-icons">lock_open</i>
