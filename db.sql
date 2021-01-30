@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 28, 2021 at 07:50 PM
+-- Generation Time: Jan 30, 2021 at 12:07 PM
 -- Server version: 10.5.8-MariaDB
 -- PHP Version: 7.4.14
 
@@ -86,6 +86,33 @@ CREATE TABLE `courses_youlearn` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `student_progress`
+--
+
+CREATE TABLE `student_progress` (
+  `id` int(11) NOT NULL,
+  `student` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `courseId` int(255) NOT NULL,
+  `lessonId` int(255) NOT NULL,
+  `completedLessons` int(10) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tutorInfo`
+--
+
+CREATE TABLE `tutorInfo` (
+  `id` int(11) NOT NULL,
+  `tutor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `shortDesc` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -130,6 +157,18 @@ ALTER TABLE `courses_youlearn`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `student_progress`
+--
+ALTER TABLE `student_progress`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tutorInfo`
+--
+ALTER TABLE `tutorInfo`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -161,6 +200,18 @@ ALTER TABLE `courses_sections`
 -- AUTO_INCREMENT for table `courses_youlearn`
 --
 ALTER TABLE `courses_youlearn`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `student_progress`
+--
+ALTER TABLE `student_progress`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tutorInfo`
+--
+ALTER TABLE `tutorInfo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
