@@ -223,6 +223,12 @@ include "../elements/comprobation.php";
 			 cancelButton.className = "btn btn-accent"
 			 cancelButton.value = "Eliminar"
 
+			 var text = document.getElementById("newYoulearnText")
+			 text.id = "text-" + data
+			 text.onchange = () => {
+			     updateYouLearn(data, text.value)
+			 }
+
 			 cancelButton.onclick = () => {
 			     deleteYouLearn(
 				 data,

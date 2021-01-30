@@ -9,7 +9,7 @@ $_CONFIG["SITE_PRODUCTION"] = false;
 
 $_CONFIG["DB_HOST"] = "localhost";
 $_CONFIG["DB_USER"] = "root";
-$_CONFIG["DB_PASS"] = "password";
+$_CONFIG["DB_PASS"] = "";
 $_CONFIG["DB_NAME"] = "delta";
 
 if (!$_CONFIG["SITE_PRODUCTION"]) {
