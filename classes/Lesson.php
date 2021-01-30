@@ -117,6 +117,23 @@ class Lesson {
 	    return false;
 	}
     }
+
+    public function getSection($lessonId=null) {
+	$lesson = $this->id;
+
+	if ($lessonId != null) {
+	    $lesson = $lessonId;
+	}
+
+	$stmt = $this->conn->prepare("SELECT sectionId FROM courses_lessons WHERE id=? LIMIT 1");
+	$stmt->bind_param("i", $lesson);
+	$stmt->execute();
+	$stmt->bind_result($section);
+	$stmt->fetch();
+	$stmt->close();
+
+	return $section;
+    }
 }
 
 ?>
