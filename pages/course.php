@@ -187,7 +187,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 		      <a class="flex"
 				<?php
 				if ($progress["lesson"] >= $lessons[$j]["id"]) {
-				    echo 'href="#"';
+				    echo 'href="/lesson/'. $lessons[$j]["id"] .'"';
 				}
 				?>
 		      >
