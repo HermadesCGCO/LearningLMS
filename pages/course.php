@@ -68,7 +68,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	    </span>
 
 	    <div class="media-body">
-	      <a class="card-title m-0" href="/tutor/<?php echo $tutorInfo["id"]; ?>">
+	      <a class="card-title m-0" href="/tutor/<?php echo $info["tutor"]; ?>">
 		<?php echo $info["tutor"]; ?>
 	      </a>
 	      <p class="text-50 lh-l mb-0">Tutor</p>
@@ -327,12 +327,12 @@ para nostros</p>";
 	    <div class="d-flex flex-column flex-sm-row align-items-center
 			justify-content-start">
 
-	      <a href="/tutor/<?php echo $tutorInfo["id"]; ?>" class="btn btn-outline-primary mb-16pt
+	      <a href="/tutor/<?php echo $info["tutor"]; ?>" class="btn btn-outline-primary mb-16pt
 		       mb-sm-0 mr-sm-16pt">
 		Seguir
 	      </a>
 
-	      <a href="/tutor/<?php echo $tutorInfo["id"]; ?>" class="btn btn-outline-secondary">
+	      <a href="/tutor/<?php echo $info["tutor"]; ?>" class="btn btn-outline-secondary">
 		Ver perfil
 	      </a>
 

@@ -34,5 +34,5 @@ RewriteRule ^takeCourse/([0-9]+)$ pages/helpers/takeCourse.php?id=$1 [NC,L]
 RewriteRule ^lesson/([0-9]+)$ pages/lesson.php?id=$1 [NC,L]
 RewriteRule ^lesson/([0-9]+)$/ pages/lesson.php?id=$1 [NC,L]
 
-RewriteRule ^tutor/([0-9]+)$ pages/tutor/tutor.php?id=$1 [NC,L]
-RewriteRule ^tutor/([0-9]+)/$ pages/tutor/tutor.php?id=$1 [NC,L]
+RewriteRule ^tutor/([A-Za-z]+)$ pages/tutor/tutor.php?name=$1 [NC,L]
+RewriteRule ^tutor/([A-Za-z]+)/$ pages/tutor/tutor.php?name=$1 [NC,L]

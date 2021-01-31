@@ -107,11 +107,16 @@ class User {
 	return false;
     }
 
-    public function getUserInfo() {
+    public function getUserInfo($userName="") {
 	$info = [];
+	$user = $this->user;
+
+	if (!empty($userName)) {
+	    $user = $userName;
+	}
 
 	$stmt = $this->conn->prepare("SELECT name,lastname,email FROM users WHERE name=?");
-	$stmt->bind_param("s", $this->user);
+	$stmt->bind_param("s", $user);
 	if ($stmt->execute()) {
 	    $stmt->bind_result(
 		$name,
