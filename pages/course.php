@@ -345,6 +345,225 @@ para nostros</p>";
     </div>
   </div>
 
+  <div class="page-section border-bottom-2">
+    <div class="container">
+      <div class="page-headline text-center">
+	<!-- TODO: Featured ratings -->
+	<h2>Feedback</h2>
+	<p class="lead text-70 measure-lead mx-auto">Lee lo que otros estudiantes piensan de este curso</p>
+      </div>
+
+      <div class="position-relative carousel-card p-0 mx-auto">
+	<div class="position-relative carousel-card p-0 mx-auto">
+	  <div class="row d-block js-mdk-carousel" id="carousel-feedback">
+
+	    <a class="carousel-control-next js-mdk-carousel-control mt-n24pt"
+	       href="#carousel-feedback" role="button" data-slide="next">
+	      <span class="carousel-control-icon material-icons"
+		    aria-hidden="true">keyboard_arrow_right</span>
+	      <span class="sr-only">Siguiente</span>
+	    </a>
+
+	    <div class="mdk-carousel__content">
+
+	      <?php
+
+	      $feedback = $course->getFeaturedReviews(10);
+
+	      // TODO: Permitirle al tutor establecer una calificacion como
+	      // destacada en el panel de control.
+
+	      for ($i = 0; $i < sizeof($feedback); $i++) {
+	      ?>
+
+		<div class="col-12 col-md-6">
+
+		  <div class="card card-feedback card-body">
+		    <blockquote class="blockquote mb-0">
+		      <p class="text-70 small mb-0"><?php echo $feedback[$i]["content"]; ?></p>
+		    </blockquote>
+
+		    <div class="media ml-12pt">
+		      <div class="media-left mr-12pt">
+			<!-- TODO: Student profile -->
+			<a class="avatar avatar-sm" href="#">
+			  <span class="avatar-title rounded-circle"><?php echo substr($feedback[$i]["student"], 0, 2); ?></span>
+			</a>
+		      </div>
+
+		      <div class="media-body media-middle">
+			<a class="card-title" href="#">
+			  <?php echo $feedback[$i]["student"]; ?>
+			</a>
+
+			<div class="rating mt-4pt">
+			  <?php for ($j = 0; $j < $feedback[$i]["stars"]; $j++) {  ?>
+			    <span class="rating__item"><span class="material-icons">star</span></span>
+			  <?php } ?>
+			</div>
+		      </div>
+		    </div>
+		  </div>
+
+		</div>
+
+	      <?php } ?>
+
+	    </div>
+
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-section bg-alt border-bottom-2">
+
+    <div class="container page__container">
+      <div class="page-separator">
+	<div class="page-separator__text">
+	  Calificaciones
+	</div>
+      </div>
+
+      <?php $rating = $course->getRating(); ?>
+
+      <div class="row mb-32pt">
+	<div class="col-md-3 mb-32pt mb-md-0">
+	  <div class="display-1"><?php echo $rating["totalRating"]; ?></div>
+	  <div class="rating rating-24">
+	    <?php
+
+	    for ($i = 0; $i < floor($rating["totalRating"]); $i++) {
+	    ?>
+	      <span class="rating__item">
+		<span class="material-icons">
+		  star
+		</span>
+	      </span>
+
+	      <?php
+
+	      if (floor($rating["totalRating"]) < 5 && $i == (floor($rating["totalRating"]) - 1)) {
+		  $necesary = abs(floor($rating["totalRating"]) - 5);
+
+		  for ($j = 0; $j < $necesary; $j++) {
+		      echo '
+<span class="rating__item">
+  <span class="material-icons">star_border</span>
+</span>
+		      ';
+		  }
+	      }
+
+	      ?>
+	    <?php } ?>
+	  </div>
+	  <p class="text-muted mb-0"><?php echo $rating["numReviews"]; ?> calificaciones</p>
+	</div>
+
+	<div class="col-md-9">
+
+	  <?php
+
+	  $ratings = $course->getRatings(10);
+
+	  for ($i = 0; $i < sizeof($ratings); $i++) {
+	  ?>
+
+	    <div class="row mb-16pt">
+	      <div class="col-md-3 mb-16pt">
+		<div class="d-flex">
+		  <a class="avatar avatar-sm mr-12pt" href="#">
+		    <span class="avatar-title rounded-circle">
+		      <?php echo substr($ratings[$i]["student"], 0, 2); ?>
+		    </span>
+		  </a>
+		  <div class="flex">
+		    <p class="small text-muted m-0">
+		      <?php echo $ratings[$i]["stars"]; ?> estrellas
+		    </p>
+		    <a href="#" class="card-title">
+		      <?php echo $ratings[$i]["student"]; ?>
+		    </a>
+		  </div>
+		</div>
+	      </div>
+
+	      <div class="col-md-9">
+		<div class="rating mb-8pt">
+		  <?php
+
+		  for ($j = 0; $j < $ratings[$i]["stars"]; $j++) {
+		  ?>
+		    <span class="rating__item">
+		      <span class="material-icons">
+			star
+		      </span>
+		    </span>
+
+		    <?php
+		    if ($ratings[$i]["stars"] < 5 && $j == ($ratings[$i]["stars"] - 1)) {
+			$necesary = abs($ratings[$i]["stars"] - 5);
+
+			for ($k = 0; $k < $necesary; $k++) {
+			    echo '
+<span class="rating__item">
+  <span class="material-icons">star_border</span>
+</span>
+			    ';
+			}
+		    }
+		    ?>
+
+		  <?php } ?>
+		</div>
+		<p class="text-70 mb-0">
+		  <?php echo $ratings[$i]["content"]; ?>
+		</p>
+	      </div>
+	    </div>
+
+	  <?php } ?>
+
+	</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-section border-bottom-2">
+    <div class="container">
+      <div class="page-headline text-center">
+	<h2>Deja tu calificación</h2>
+	<p class="lead text-70 measure-lead mx-auto">
+	  Cuéntale al tutor que piensas de este curso
+	</p>
+      </div>
+
+      <form>
+	<!-- TODO: Checar si el usuario ya ha posteado una review, si es asi
+	     no crear una nueva, sino actualizarla y mostrar los datos que
+	     introdujo anteriormente. -->
+	<div class="row">
+	  <div class="col-md-10">
+	    <div class="form-label">Estrellas</div>
+
+	    <div class="rating mb-16pt">
+	      <span class="rating__item"><div class="material-icons">star_border</div></span>
+	      <span class="rating__item"><div class="material-icons">star_border</div></span>
+	      <span class="rating__item"><div class="material-icons">star_border</div></span>
+	      <span class="rating__item"><div class="material-icons">star_border</div></span>
+	      <span class="rating__item"><div class="material-icons">star_border</div></span>
+	    </div>
+
+	    <div class="form-label">¿Qué piensas de este curso?</div>
+	  </div>
+	</div>
+      </form>
+    </div>
+  </div>
+
 </div>
 
 <?php

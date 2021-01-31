@@ -472,6 +472,94 @@ class Course {
 	);
     }
 
+    public function getFeaturedReviews($limit=0, $courseId=null) {
+	$course = $this->id;
+
+	$reviews = [];
+	$i = 0;
+
+	if ($courseId != null) {
+	    $course = $courseId;
+	}
+
+	$stmt = $this->conn->prepare("SELECT student,content,stars FROM courses_reviews WHERE featured='yes' AND course=?");
+	$stmt->bind_param("i", $course);
+	$stmt->execute();
+	$stmt->bind_result($student, $content, $stars);
+	while ($stmt->fetch()) {
+	    $reviews[$i]["student"] = $student;
+	    $reviews[$i]["content"] = $content;
+	    $reviews[$i]["stars"] = $stars;
+
+	    $i++;
+	}
+	$stmt->close();
+
+
+	return $reviews;
+    }
+
+    public function getRating($courseId=null) {
+	$course = $this->id;
+
+	$numReviews = 0;
+	$rating = 0;
+
+	if ($courseId != null) {
+	    $course = $courseId;
+	}
+
+	$stmt = $this->conn->prepare("SELECT stars FROM courses_reviews WHERE course=?");
+	$stmt->bind_param("i", $course);
+	$stmt->execute();
+	$stmt->bind_result($stars);
+	while ($stmt->fetch()) {
+	    $rating += $stars;
+	    $numReviews++;
+	}
+	$stmt->close();
+
+	$total = $rating / $numReviews;
+
+	return array(
+	    "numReviews" => $numReviews,
+	    "rating" => $rating,
+	    "totalRating" => $total
+	);
+    }
+
+    public function getRatings($limit=0, $courseId=null) {
+	$course = $this->id;
+
+	$ratings = [];
+	$i = 0;
+
+	if ($courseId != null) {
+	    $course = $courseId;
+	}
+
+	$query = "SELECT student,content,stars FROM courses_reviews WHERE course=? ORDER BY id DESC";
+
+	if ($limit > 0) {
+	    $query .= " LIMIT " . $limit;
+	}
+
+	$stmt = $this->conn->prepare($query);
+	$stmt->bind_param("i", $course);
+	$stmt->execute();
+	$stmt->bind_result($student, $content, $stars);
+	while ($stmt->fetch()) {
+	    $ratings[$i]["student"] = $student;
+	    $ratings[$i]["content"] = $content;
+	    $ratings[$i]["stars"] = $stars;
+
+	    $i++;
+	}
+	$stmt->close();
+
+	return $ratings;
+    }
+
     public function getCategories() {
 	return [
 	    "Hacking",

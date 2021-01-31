@@ -1,10 +1,11 @@
+- Reemplazar todos los formularios con peticiones ajax
+
 Paginas:
 - Terminar la pagina principal
 - Explorar paths
 - Panel de control del estudiante
 - Mis cursos (pagina donde se guarda el progreso de cada estudiante)
 - Mis paths (lo mismo que los cursos, pero con paths)
-- Leccion (pagina donde se ve la leccion)
 - Mis quizzes (pagina donde se ven los quizzes de cada estudiante)
 
 -Skill Assessment (>- Tengo una idea y es hacer examenes largos que nos permitan
