@@ -17,6 +17,13 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
   <div class="page-section border-bottom-2">
     <div class="container page__container">
 
+      <div class="d-flex flex-column flex-sm-row align-items-sm-center
+		  mb-24pt" style="white-space: nowrap">
+	<small class="flex text-muted text-headings text-uppercase mr-3 mb-2 mb-sm-0">
+	  Mostrando 4 cursos por cada sección
+	</small>
+      </div>
+
       <div class="page-separator">
 	<div class="page-separator__text">
 	  Lo más popular

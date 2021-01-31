@@ -287,11 +287,18 @@ class User {
 	$stmt->bind_param("siii", $toEnrol, $courseId, $lesson, $section);
 	if ($stmt->execute()) {
 	    $stmt->close();
-	    return true;
 	} else {
 	    $stmt->close();
 	    return false;
 	}
+
+	$stmt = $this->conn->prepare("UPDATE courses SET students=students+1 WHERE id=?");
+	$stmt->bind_param("i", $courseId);
+	$stmt->execute();
+	$stmt->close();
+
+	return true;
+
     }
 
     public function getCourseProgress($courseId, $user="") {
