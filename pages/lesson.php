@@ -153,9 +153,9 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	<h1 class="text-white flex m-0"><?php echo $info["name"]; ?></h1>
       </div>
 
-      <p class="hero__lead measure-hero-lead text-white-50 mb-24pt">
+      <div class="hero__lead measure-hero-lead text-white-50 mb-24pt">
 	<?php echo $info["content"]; ?>
-      </p>
+      </div>
 
       <?php if ($progress["lesson"] <= $_GET["id"]) { ?>
       <div class="d-flex flex-column flex-sm-row align-items-center justify-content-start">
