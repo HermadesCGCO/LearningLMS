@@ -1,16 +1,5 @@
 <?php
 
-// TODO: Antes de aumentar el valor de completedLessons checar si esta leccion
-// no ha sido completada
-
-// TODO: Boton "Marcar como completada" al final de la leccion, si es necesario
-// agregarle un valor a "completedLessons" y dirigir al usuario a la siguiente
-// leccion.
-// Si al marcar una leccion como completada y es la ultima leccion de la seccion
-// pasar con la primera leccion de la siguiente seccion
-
-// TODO: Si el video esta "empty" mostrar solamente el "content" de la leccion.
-
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/config.php";
 
 include $_SERVER["DOCUMENT_ROOT"] . "/classes/Lesson.php";
