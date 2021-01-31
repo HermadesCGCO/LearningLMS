@@ -314,6 +314,26 @@ class User {
 	);
     }
 
+    public function updateCourseProgress($courseId, $lessonId, $sectionId, $user="") {
+	// TODO: Cambiar el valor de courseId, lessonId, sectionId y aumentar completedLessons
+
+	$toUpdate = $this->user;
+
+	if (!empty($user)) {
+	    $toUpdate = $user;
+	}
+
+	$stmt = $this->conn->prepare("UPDATE student_progress SET courseId=?,lessonId=?,sectionId=?,completedLessons=completedLessons+1 WHERE student=?");
+	$stmt->bind_param("iiis", $courseId, $lessonId, $sectionId, $toUpdate);
+	if ($stmt->execute()) {
+	    $stmt->close();
+	    return 1;
+	} else {
+	    $stmt->close();
+	    return 0;
+	}
+    }
+
 }
 
 ?>

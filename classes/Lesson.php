@@ -134,6 +134,25 @@ class Lesson {
 
 	return $section;
     }
+
+    public function getNextLesson($courseId, $lessonId=null) {
+	$lesson = $this->id;
+
+	if ($lessonId != null) {
+	    $lesson = $lessonId;
+	}
+
+	$query = "SELECT id FROM courses_lessons WHERE courseId=? AND id > ? LIMIT 1";
+
+	$stmt = $this->conn->prepare($query);
+	$stmt->bind_param("ii", $courseId, $lesson);
+	$stmt->execute();
+	$stmt->bind_result($nextLesson);
+	$stmt->fetch();
+	$stmt->close();
+
+	return $nextLesson;
+    }
 }
 
 ?>

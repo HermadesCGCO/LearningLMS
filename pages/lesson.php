@@ -157,17 +157,33 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	<?php echo $info["content"]; ?>
       </p>
 
+      <?php if ($progress["lesson"] <= $_GET["id"]) { ?>
       <div class="d-flex flex-column flex-sm-row align-items-center justify-content-start">
-	<a href=""
+	<a onclick="complete()"
 	   class="btn btn-outline-white mb-16pt mb-sm-0 mr-sm-16pt">
 	  Lección completada
 	</a>
       </div>
+      <?php } ?>
 
     </div>
   </div>
 
 </div>
+
+<script>
+ function complete() {
+     $.get("/api/private/progress/goToNextSectionAndUpdateProgress.php", {
+	 id: <?php echo $_GET["id"]; ?>
+     }).done((data) => {
+	 if (data != "-1") {
+	     window.location.href = "/lesson/" + data
+	 } else {
+	     alert("Ha habido un error, por favor intentalo mas tarde")
+	 }
+     })
+ }
+</script>
 
 <?php
 
