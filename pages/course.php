@@ -22,6 +22,8 @@ $info = $course->getCourse();
 $tutor = new Tutor($conn, $info["tutor"]);
 $tutorInfo = $tutor->getInfo();
 
+$rating = $course->getRating();
+
 if (isset($user) && $user->isUserEnroledInCourse($_GET["id"])) {
     $enroled = 1;
 
@@ -110,7 +112,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	  <div class="rating rating-24">
 	  </div>
 	  <p class="lh-l mb-0">
-	    <small class="text-muted">TODO: Rating</small>
+	    <small class="text-muted"><?=$rating["totalRating"];?>/5 estrellas</small>
 	  </p>
 	</li>
 
@@ -385,9 +387,6 @@ para nostros</p>";
 
 	      $feedback = $course->getFeaturedReviews(10);
 
-	      // TODO: Permitirle al tutor establecer una calificacion como
-	      // destacada en el panel de control.
-
 	      for ($i = 0; $i < sizeof($feedback); $i++) {
 	      ?>
 
@@ -440,8 +439,6 @@ para nostros</p>";
 	  Calificaciones
 	</div>
       </div>
-
-      <?php $rating = $course->getRating(); ?>
 
       <div class="row mb-32pt">
 	<div class="col-md-3 mb-32pt mb-md-0">
@@ -565,9 +562,6 @@ para nostros</p>";
       </div>
 
       <form method="POST">
-	<!-- TODO: Checar si el usuario ya ha posteado una review, si es asi
-	     no crear una nueva, sino actualizarla y mostrar los datos que
-	     introdujo anteriormente. -->
 	<div class="row">
 	  <div class="col-md-10">
 	    <div class="form-label mb-4pt">Estrellas</div>
