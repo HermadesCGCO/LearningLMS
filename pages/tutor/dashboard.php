@@ -127,14 +127,86 @@ include "elements/comprobation.php";
       <div class="col-lg-6">
 
 	<div class="page-separator">
-	  <div class="page-separator__text">Comentario destacado</div>
+	  <div class="page-separator__text">Calificaciones</div>
 	</div>
 
 	<div class="card">
 	  <div class="card-body">
-	    TODO: Esto
+
+	    <?php
+
+	    $myCourses = $tutor->getMyCourses();
+	    shuffle($myCourses);
+
+	    $toGet = $myCourses[0];
+
+	    $course = new Course($conn);
+	    $course->linkCourse($toGet);
+	    $courseInfo = $course->getCourse();
+
+	    $review = $course->getRandomReview();
+
+	    if (!empty($review)) {
+	    ?>
+
+	      <div class="media">
+		<div class="media-left mr-12pt">
+		  <a class="avatar avatar-sm" href="#">
+		    <span class="avatar-title rounded">
+		      <?php echo substr($review["student"], 0, 2); ?>
+		    </span>
+		  </a>
+		</div>
+
+		<div class="media-body d-flex flex-column">
+		  <div class="d-flex align-items-center">
+		    <a class="card-title" href="#">
+		      <?php echo $review["student"]; ?>
+		    </a>
+		  </div>
+
+		  <span class="text-muted">
+		    en
+		    <a class="text-50" href="/course/<?=$toGet;?>"
+		       style="text-decoration: underline">
+		      <?=$courseInfo["name"]?>
+		    </a>
+		  </span>
+
+		  <p class="mt-1 mb-0 text-70">
+		    <?=$review["content"];?>
+
+		    <div class="rating">
+		      <?php for ($i = 0; $i < $review["stars"]; $i++) { ?>
+			<span class="rating__item">
+			  <span class="material-icons">
+			    star
+			  </span>
+			</span>
+		      <?php } ?>
+		    </div>
+
+		  </p>
+
+		  <button class="btn btn-primary col-md-4" onclick="featureReview(<?=$review["id"];?>)">
+		    Destacar
+		  </button>
+
+		</div>
+	      </div>
+
+	    <?php } else {
+		echo "Tu curso <b>" . $courseInfo["name"] . "</b> aun no tiene calificaciones";
+	    }?>
+
 	  </div>
 	</div>
+
+	<small class="text-muted">
+	  Al recargar la página aparecerá una calificación aleatoria
+	  de un curso tuyo aleatorio,
+	  en este panel puedes ponerla como destacada.
+	</small>
 
       </div>
 
@@ -142,6 +214,18 @@ include "elements/comprobation.php";
   </div>
 
 </div>
+
+<script>
+
+ function featureReview(reviewId) {
+     $.get("/api/private/courses/featureReview.php", { id: reviewId }).done((data) => {
+	 if (data === "1") {
+	     window.location.reload()
+	 }
+     })
+ }
+
+</script>
 
 <?php
 

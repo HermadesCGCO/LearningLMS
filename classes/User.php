@@ -327,8 +327,6 @@ class User {
     }
 
     public function updateCourseProgress($courseId, $lessonId, $sectionId, $user="") {
-	// TODO: Cambiar el valor de courseId, lessonId, sectionId y aumentar completedLessons
-
 	$toUpdate = $this->user;
 
 	if (!empty($user)) {
@@ -343,6 +341,82 @@ class User {
 	} else {
 	    $stmt->close();
 	    return 0;
+	}
+    }
+
+    public function hasReviewedCourse($courseId, $user="") {
+	$toCheck = $this->user;
+
+	if (!empty($user)) {
+	    $toCheck = $user;
+	}
+
+	$stmt = $this->conn->prepare("SELECT id FROM courses_reviews WHERE course=? AND student=? LIMIT 1");
+	$stmt->bind_param("is", $courseId, $toCheck);
+	$stmt->execute();
+	$stmt->store_result();
+	if ($stmt->num_rows > 0) {
+	    $stmt->close();
+	    return true;
+	} else {
+	    $stmt->close();
+	    return false;
+	}
+    }
+
+    public function getCourseReview($courseId, $user="") {
+	$toGet = $this->user;
+
+	if (!empty($user)) {
+	    $toGet = $user;
+	}
+
+	$stmt = $this->conn->prepare("SELECT content,stars FROM courses_reviews WHERE course=? AND student=? LIMIT 1");
+	$stmt->bind_param("is", $courseId, $toGet);
+	$stmt->execute();
+	$stmt->bind_result($content, $stars);
+	$stmt->fetch();
+	$stmt->close();
+
+	return array(
+	    "content" => $content,
+	    "stars" => $stars
+	);
+    }
+
+    public function reviewCourse($courseId, $stars, $content, $user="") {
+	$toPost = $this->user;
+
+	if (!empty($user)) {
+	    $toPost = $user;
+	}
+
+	$stmt = $this->conn->prepare("INSERT INTO courses_reviews(student, content, stars, course) VALUES(?,?,?,?)");
+	$stmt->bind_param("ssii", $toPost, $content, $stars, $courseId);
+	if ($stmt->execute()) {
+	    $stmt->close();
+	    return true;
+	} else {
+	    $stmt->close();
+	    return false;
+	}
+    }
+
+    public function updateReview($courseId, $stars, $content, $user="") {
+	$toUpdate = $this->user;
+
+	if (!empty($user)) {
+	    $toUpdate = $user;
+	}
+
+	$stmt = $this->conn->prepare("UPDATE courses_reviews SET content=?,stars=? WHERE student=? AND course=?");
+	$stmt->bind_param("sisi", $content, $stars, $toUpdate, $courseId);
+	if ($stmt->execute()) {
+	    $stmt->close();
+	    return true;
+	} else {
+	    $stmt->close();
+	    return false;
 	}
     }
 

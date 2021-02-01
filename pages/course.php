@@ -30,6 +30,22 @@ if (isset($user) && $user->isUserEnroledInCourse($_GET["id"])) {
     $enroled = 0;
 }
 
+if (isset($_POST["postReview"])) {
+    if ($user->hasReviewedCourse($_GET["id"])) {
+	if ($user->updateReview($_GET["id"], $_POST["stars"], $_POST["reviewContent"])) {
+	    header("Refresh: 0");
+	    exit();
+	}
+    } else {
+	if ($user->reviewCourse($_GET["id"], $_POST["stars"], $_POST["reviewContent"])) {
+	    header("Refresh: 0");
+	    exit();
+	}
+    }
+}
+
+$includeTinyMCE = 1;
+
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 ?>
@@ -348,7 +364,6 @@ para nostros</p>";
   <div class="page-section border-bottom-2">
     <div class="container">
       <div class="page-headline text-center">
-	<!-- TODO: Featured ratings -->
 	<h2>Feedback</h2>
 	<p class="lead text-70 measure-lead mx-auto">Lee lo que otros estudiantes piensan de este curso</p>
       </div>
@@ -532,6 +547,14 @@ para nostros</p>";
 
   </div>
 
+  <?php
+  if (isset($_SESSION["name"])) {
+
+      if ($user->hasReviewedCourse($_GET["id"])) {
+	  $review = $user->getCourseReview($_GET["id"]);
+      }
+
+  ?>
   <div class="page-section border-bottom-2">
     <div class="container">
       <div class="page-headline text-center">
@@ -541,28 +564,57 @@ para nostros</p>";
 	</p>
       </div>
 
-      <form>
+      <form method="POST">
 	<!-- TODO: Checar si el usuario ya ha posteado una review, si es asi
 	     no crear una nueva, sino actualizarla y mostrar los datos que
 	     introdujo anteriormente. -->
 	<div class="row">
 	  <div class="col-md-10">
-	    <div class="form-label">Estrellas</div>
+	    <div class="form-label mb-4pt">Estrellas</div>
 
-	    <div class="rating mb-16pt">
-	      <span class="rating__item"><div class="material-icons">star_border</div></span>
-	      <span class="rating__item"><div class="material-icons">star_border</div></span>
-	      <span class="rating__item"><div class="material-icons">star_border</div></span>
-	      <span class="rating__item"><div class="material-icons">star_border</div></span>
-	      <span class="rating__item"><div class="material-icons">star_border</div></span>
+	    <div class="form-group">
+	      <select class="form-control" name="stars">
+		<?php
+		for ($i = 0; $i < 5; $i++) {
+		?>
+
+		  <option value="<?=$i+1?>"
+			  <?php if (isset($review) && (($review["stars"] - 1)) == $i) { echo "selected"; } ?>>
+		    <?=$i+1?>
+		  </option>
+
+		<?php } ?>
+	      </select>
 	    </div>
 
-	    <div class="form-label">¿Qué piensas de este curso?</div>
+	    <div class="form-label mb-8pt">¿Qué piensas de este curso?</div>
+
+	    <div class="form-group">
+	      <textarea id="reviewContent" name="reviewContent">
+		<?php
+
+		if (isset($review)) {
+		    echo $review["content"];
+		}
+
+		?>
+	      </textarea>
+	    </div>
+
+	    <button class="btn btn-accent" name="postReview">Publicar</button>
 	  </div>
 	</div>
       </form>
     </div>
   </div>
+
+  <script>
+   tinymce.init({
+       selector: "#reviewContent",
+       plugins: "advlist autolink lists link image charmap print preview hr anchor pagebreak"
+   })
+  </script>
+  <?php } ?>
 
 </div>
 

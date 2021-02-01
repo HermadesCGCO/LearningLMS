@@ -519,7 +519,11 @@ class Course {
 	}
 	$stmt->close();
 
-	$total = $rating / $numReviews;
+	if ($numReviews == 0) {
+	    $total = 0;
+	} else {
+	    $total = $rating / $numReviews;
+	}
 
 	return array(
 	    "numReviews" => $numReviews,
@@ -558,6 +562,34 @@ class Course {
 	$stmt->close();
 
 	return $ratings;
+    }
+
+    public function getRandomReview($courseId=null) {
+	$toGet = $this->id;
+
+	if ($courseId != null) {
+	    $toGet = $courseId;
+	}
+
+	$stmt = $this->conn->prepare("SELECT id,student,content,stars FROM courses_reviews WHERE featured='no' AND course=? AND id >= RAND() * (SELECT MAX(id) FROM courses_reviews) LIMIT 1");
+	$stmt->bind_param("i", $toGet);
+	$stmt->execute();
+	$stmt->store_result();
+
+	if ($stmt->num_rows == 0) {
+	    return [];
+	}
+
+	$stmt->bind_result($id, $student, $content, $stars);
+	$stmt->fetch();
+	$stmt->close();
+
+	return array(
+	    "id" => $id,
+	    "student" => $student,
+	    "content" => $content,
+	    "stars" => $stars
+	);
     }
 
     public function getCategories() {
