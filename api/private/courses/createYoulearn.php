@@ -1,5 +1,8 @@
 <?php
 
+// Este archivo se encarga de crear un nuevo "youlearn" en la base de datos del
+// curso especificado.
+
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/config.php";
 
 if (!isset($_SESSION["name"])) {

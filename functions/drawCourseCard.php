@@ -1,6 +1,7 @@
 <?php
 
 function drawCourseCard($info, $youlearn, $textVisit="Visitar", $url="default") {
+    // Esta funcion es usada para dibujar el card de un curso.
 
     $youlearnHTML = "";
 

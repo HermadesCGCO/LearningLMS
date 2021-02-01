@@ -1,5 +1,7 @@
 <?php
 
+// Este archivo se encarga de poner una "review" o calificación como destacada
+
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/config.php";
 
 if (!isset($_SESSION["name"])) {

@@ -1,5 +1,8 @@
 <?php
 
+// Este archivo se encarga de eliminar el "youlearn" especificado de la base de
+// datos.
+
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/config.php";
 
 if (!isset($_SESSION["name"])) {

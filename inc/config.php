@@ -1,5 +1,7 @@
 <?php
 
+// Este archivo contiene las configuraciones de la pagina.
+
 ob_flush();
 session_start();
 

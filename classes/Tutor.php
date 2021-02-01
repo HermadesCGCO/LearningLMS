@@ -2,17 +2,25 @@
 
 define("Class.Tutor", "");
 
+// Esta clase contiene muchos metodos utiles para obtener informacion de los
+// tutores.
+
 class Tutor {
 
     protected $conn;
     protected $name;
 
     public function __construct($mysql, $name) {
+	// Inicializacion de la clase.
+
 	$this->conn = $mysql;
 	$this->name = $name;
     }
 
     public function getMyCourses($limit = 0) {
+	// Obtiene las IDs de los cursos de este tutor. Ten en cuenta que puedes
+	// especificar un limite.
+
 	$courses = [];
 
 	$query = "SELECT id FROM courses WHERE tutor=?";
@@ -34,6 +42,8 @@ class Tutor {
     }
 
     public function hasInfo() {
+	// Chequea si un tutor ha proporcionado informacion sobre el o no.
+
 	$stmt = $this->conn->prepare("SELECT id FROM tutorInfo WHERE tutor=? LIMIT 1");
 	$stmt->bind_param("s", $this->name);
 	$stmt->execute();
@@ -48,6 +58,8 @@ class Tutor {
     }
 
     public function getInfo() {
+	// Obtiene la informacion de un tutor.
+
 	$info = [];
 
 	$stmt = $this->conn->prepare("SELECT * FROM tutorInfo WHERE tutor=? LIMIT 1");
@@ -71,6 +83,8 @@ class Tutor {
     }
 
     public function updateInfo($info) {
+	// Actualiza la informacion de un tutor.
+
 	$shortDesc = htmlspecialchars($info["shortDesc"]);
 	$description = htmlspecialchars($info["description"]);
 
@@ -81,6 +95,8 @@ class Tutor {
     }
 
     public function createInfo($info) {
+	// Inserta la informacion de este tutor en la base de datos.
+
 	$shortDesc = htmlspecialchars($info["shortDesc"]);
 	$description = htmlspecialchars($info["description"]);
 

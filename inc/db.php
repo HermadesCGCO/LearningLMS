@@ -1,5 +1,7 @@
 <?php
 
+// Este archivo realiza la conexion a la base de datos.
+
 $conn = mysqli_connect(
     $_CONFIG["DB_HOST"],
     $_CONFIG["DB_USER"],

@@ -2,19 +2,28 @@
 
 define("Class.Lesson", "");
 
+// Esta clase contiene muchos metodos que son utiles al momento de actualizar,
+// modificar, crear u obtener informacion de una lección.
+
 class Lesson {
     protected $conn;
     protected $id;
 
     public function __construct($db) {
+	// Metodo que inicializa la clase.
+
 	$this->conn = $db;
     }
 
     public function linkLesson($id) {
+	// Enlaza una lección para no tener que pasar su ID en cada metodo.
+
 	$this->id = $id;
     }
 
     public function lessonExists($lessonId=null) {
+	// Chequea si una lección existe.
+
 	$lesson = $this->id;
 
 	if ($lessonId != null) {
@@ -37,6 +46,8 @@ class Lesson {
     }
 
     public function getCourse($lessonId=null) {
+	// Obtiene el ID del curso de la lección especificada.
+
 	$lesson = $this->id;
 
 	if ($lessonId != null) {
@@ -54,6 +65,8 @@ class Lesson {
     }
 
     public function getInfo($lessonId=null) {
+	// Obtiene informacion sobre una lección.
+
 	$lesson = $this->id;
 
 	if ($lessonId != null) {
@@ -75,6 +88,8 @@ class Lesson {
     }
 
     public function updateLesson($data, $lessonId=null) {
+	// Actualiza los datos de una lección.
+
 	$lesson = $this->id;
 
 	if ($lessonId != null) {
@@ -101,6 +116,8 @@ class Lesson {
     }
 
     public function deleteLesson($lessonId=null) {
+	// Elimina una lección.
+
 	$lesson = $this->id;
 
 	if ($lessonId != null) {
@@ -119,6 +136,8 @@ class Lesson {
     }
 
     public function getSection($lessonId=null) {
+	// Obtiene la seccion de una lección.
+
 	$lesson = $this->id;
 
 	if ($lessonId != null) {
@@ -136,6 +155,8 @@ class Lesson {
     }
 
     public function getNextLesson($courseId, $lessonId=null) {
+	// Obtiene la siguiente lección a la lección especificada.
+
 	$lesson = $this->id;
 
 	if ($lessonId != null) {

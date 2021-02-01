@@ -1,5 +1,7 @@
 <?php
 
+// Este archivo se encarga de actualizar un "youlearn" en la base de datos
+
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/config.php";
 
 if (!isset($_SESSION["name"])) {

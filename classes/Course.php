@@ -2,20 +2,30 @@
 
 define("Class.Course", "");
 
+// Esta clase contiene muchos metodos utiles para manipular, actualizar e
+// incluso crear cursos
+
 class Course {
 
     protected $conn;
     protected $id;
 
     function __construct($mysql) {
+	// Inicializador de la clase.
+
 	$this->conn = $mysql;
     }
 
     public function linkCourse($id) {
+	// Enlazamos la ID de un curso a esta clase para asi evitar pasar la ID
+	// de un curso cada vez que llamamos a un metodo de esta clase.
+
 	$this->id = $id;
     }
 
     public function courseExists($courseId=null) {
+	// Chequea si un curso ya existe.
+
 	$id = $this->id;
 
 	if ($courseId != null){
@@ -33,6 +43,9 @@ class Course {
     }
 
     public function getLastLessonOrder($sectionId, $courseId=null) {
+	// Obtiene el ultimo "showOrder" de una seccion. Util al momento de
+	// crear nuevas lecciones.
+
 	$course = $this->id;
 
 	if ($courseId != null) {
@@ -57,6 +70,8 @@ class Course {
     }
 
     public function getCourse($courseId=null) {
+	// Obtiene toda la informacion util de un curso.
+
 	$course = [];
 
 	$query = "SELECT id,name,shortDesc,description,thumb,difficulty,category,duration,lastUpdated,students,lessons,tutor FROM courses";
@@ -107,6 +122,8 @@ class Course {
     }
 
     public function createCourse($data, $tutor) {
+	// Crea un curso.
+
 	$lastUpdated = date("m/Y");
 
 	$name = htmlspecialchars($data["name"]);
@@ -148,6 +165,8 @@ class Course {
     }
 
     public function updateCourse($data, $courseId=null) {
+	// Actualiza la informacion de un curso.
+
 	$toUpdateId = $this->id;
 
 	if ($courseId != null) {
@@ -184,6 +203,8 @@ class Course {
     }
 
     public function getYouLearn($limit = 0) {
+	// Obtiene todos los "youlearn" de un curso en la base de datos.
+
 	$things = [];
 	$i = 0;
 
@@ -209,6 +230,8 @@ class Course {
     }
 
     public function createSection($name, $courseId=null) {
+	// Crea una nueva seccion.
+
 	$course = $this->id;
 
 	if ($courseId != null) {
@@ -226,6 +249,8 @@ class Course {
     }
 
     public function getSections($courseId=null) {
+	// Obtiene todas las secciones de un curso.
+
 	$sections = [];
 
 	$course = $this->id;
@@ -253,6 +278,8 @@ class Course {
     }
 
     public function getIdFromSection($sectionId) {
+	// Obtiene el ID de un curso por medio del ID de una seccion.
+
 	$stmt = $this->conn->prepare("SELECT courseId FROM courses_sections WHERE id=? LIMIT 1");
 	$stmt->bind_param("i", $sectionId);
 	$stmt->execute();
@@ -264,6 +291,8 @@ class Course {
     }
 
     public function addLesson($data, $sectionId, $courseId=null) {
+	// Crea una nueva leccion en un curso.
+
 	$course = $this->id;
 
 	if ($courseId != null) {
@@ -313,6 +342,8 @@ class Course {
     }
 
     public function getLessonsFromSection($sectionId, $depth=1, $courseId=null) {
+	// Obtiene las lecciones de una seccion.
+
 	// La variable depth determina cuantas cosas se obtienen de la base de
 	// datos, con su valor por defecto "1" solamente se obtiene el id y el
 	// nombre, si su valor es "2" se obtiene el nombre, el contenido y el
@@ -359,6 +390,8 @@ class Course {
     }
 
     public function getFeaturedCourses($limitCourses=0) {
+	// Obtiene los cursos destacados (se puede pasar un limite de cursos).
+
 	$courses = [];
 	$limit = "";
 
@@ -378,6 +411,8 @@ class Course {
     }
 
     public function getPopularCourses($limitCourses=0) {
+	// Obtiene los cursos mas populares (con mas estudiantes).
+
 	$courses = [];
 	$limit = "";
 
@@ -397,6 +432,8 @@ class Course {
     }
 
     public function getCoursesFromCategory($category, $limitCourses=0) {
+	// Obtiene los cursos que pertenezcan a la categoria especificada.
+
 	$courses = [];
 	$limit = "";
 
@@ -417,6 +454,8 @@ class Course {
     }
 
     public function deleteCourse($courseId=null) {
+	// Elimina un curso junto con sus secciones y lecciones.
+
 	$course = $this->id;
 
 	if ($courseId != null) {
@@ -453,6 +492,8 @@ class Course {
     }
 
     public function getFirstLesson($courseId=null) {
+	// Obtiene la primera leccion de un curso.
+
 	$course = $this->id;
 
 	if ($courseId != null) {
@@ -473,6 +514,8 @@ class Course {
     }
 
     public function getFeaturedReviews($limit=0, $courseId=null) {
+	// Obtiene las calificaciones destacadas de un curso.
+
 	$course = $this->id;
 
 	$reviews = [];
@@ -500,6 +543,8 @@ class Course {
     }
 
     public function getRating($courseId=null) {
+	// Obtiene el "rating" o calificación de un curso.
+
 	$course = $this->id;
 
 	$numReviews = 0;
@@ -533,6 +578,10 @@ class Course {
     }
 
     public function getRatings($limit=0, $courseId=null) {
+	// Obtiene los ratings o calificaciones de un curso. Ten en cuenta que
+	// de igual manera puedes especificar un limite a la cantidad de
+	// calificaciones obtenidas.
+
 	$course = $this->id;
 
 	$ratings = [];
@@ -565,6 +614,8 @@ class Course {
     }
 
     public function getRandomReview($courseId=null) {
+	// Obtiene una calificación aleatoria de un curso.
+
 	$toGet = $this->id;
 
 	if ($courseId != null) {
@@ -593,6 +644,8 @@ class Course {
     }
 
     public function getCategories() {
+	// Devuelve todas las categorias disponibles.
+
 	return [
 	    "Hacking",
 	    "Programación",
@@ -603,6 +656,8 @@ class Course {
     }
 
     public function getDifficulties() {
+	// Devuelve todas las "dificultades" o niveles disponibles.
+
 	return [
 	    "Principiantes",
 	    "Intermedio",

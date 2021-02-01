@@ -2,6 +2,9 @@
 
 define("Class.User", "");
 
+// Esta clase contiene muchos metodos utiles al momento de crear, modificar,
+// eliminar, actualizar u obtener informacion de algun usuario.
+
 class User {
 
     protected $conn;
@@ -10,16 +13,24 @@ class User {
     public $errors;
 
     function __construct($db) {
+	// inicializacion de la clase.
+
 	$this->conn = $db;
 
 	$this->errors = array();
     }
 
     function linkUser($username) {
+	// Enlaza un usuario con esta clase, para no pasar su nombre cada vez
+	// que llamamos un metodo.
+
 	$this->user = $username;
     }
 
     function createUser($data) {
+	// Crea un usuario. Ten en cuenta que esto encripta las contrasenas y
+	// chequea que ni el E-mail o el nombre introducido ya existan.
+
 	if (
 	    (!isset($data["name"]) || empty($data["name"])) ||
 	    (!isset($data["lastname"]) || empty($data["lastname"])) ||
@@ -80,6 +91,10 @@ class User {
     }
 
     protected function emailExists($email) {
+	// Chequea si una direccion de correo electronico ya existe. Ten en
+	// cuenta que este metodo solo puede ser accedido por esta clase o
+	// derivados.
+
 	$stmt = $this->conn->prepare("SELECT id FROM users WHERE email=?");
 	$stmt->bind_param("s", $email);
 	$stmt->execute();
@@ -94,6 +109,9 @@ class User {
     }
 
     protected function nameExists($name) {
+	// Chequea si un nombre de usuario ya existe. Ten en cuenta que este
+	// metodo solo puede ser accedido por esta clase o derivados.
+
 	$stmt = $this->conn->prepare("SELECT id FROM users WHERE name=?");
 	$stmt->bind_param("s", $name);
 	$stmt->execute();
@@ -108,6 +126,8 @@ class User {
     }
 
     public function getUserInfo($userName="") {
+	// Obtiene la informacion de un usuario.
+
 	$info = [];
 	$user = $this->user;
 
@@ -136,6 +156,8 @@ class User {
     }
 
     public function updateInfo($data) {
+	// Actualiza la informacion de un usuario.
+
 	$name = htmlspecialchars($data["name"]);
 	$lastname = htmlspecialchars($data["lastname"]);
 	$email = htmlspecialchars($data["email"]);
@@ -159,6 +181,9 @@ class User {
     }
 
     public function setLearning($data) {
+	// Esta funcion establece los intereses del usuario. Util para un
+	// sistema de recomendados basado en los intereses del usuario.
+
 	$learning = "";
 
 	if (isset($data["web"])) {
@@ -195,6 +220,8 @@ class User {
     }
 
     public function hasFinished() {
+	// Chequea si un usuario ya termino de completar su perfil o no.
+
 	$stmt = $this->conn->prepare("SELECT finished FROM users WHERE name=?");
 	$stmt->bind_param("s", $this->user);
 	$stmt->execute();
@@ -210,6 +237,8 @@ class User {
     }
 
     public function logIn($mail, $pass) {
+	// Metodo usuado para inciar sesion.
+
 	$mail = strtolower($mail);
 
 	$stmt = $this->conn->prepare("SELECT name,password FROM users WHERE email=? LIMIT 1");
@@ -240,6 +269,8 @@ class User {
     }
 
     public function isUserTutor($user = "") {
+	// Chequea si un usuario es un tutor, o no.
+
 	$toCheck = $this->user;
 
 	if (!empty($user)) {
@@ -262,6 +293,8 @@ class User {
     }
 
     public function isUserEnroledInCourse($courseId, $user="") {
+	// Chequea si un usuario esta tomando un curso.
+
 	$toCheck = $this->user;
 
 	if (!empty($user)) {
@@ -282,6 +315,8 @@ class User {
     }
 
     public function enrolInCourse($courseId, $lesson, $section, $user="") {
+	// Ingresa el estudiante a un curso.
+
 	$toEnrol = $this->user;
 
 	if (!empty($user)) {
@@ -307,6 +342,8 @@ class User {
     }
 
     public function getCourseProgress($courseId, $user="") {
+	// Devuelve el progreso de un estudiante en el curso especificado.
+
 	$toGet = $this->user;
 
 	if (!empty($user)) {
@@ -327,6 +364,8 @@ class User {
     }
 
     public function updateCourseProgress($courseId, $lessonId, $sectionId, $user="") {
+	// Actualiza el progreso de un estudiante en el curso especificado.
+
 	$toUpdate = $this->user;
 
 	if (!empty($user)) {
@@ -345,6 +384,9 @@ class User {
     }
 
     public function hasReviewedCourse($courseId, $user="") {
+	// Chequea si un usuario ha dejado o no una calificación en el curso
+	// especificado.
+
 	$toCheck = $this->user;
 
 	if (!empty($user)) {
@@ -365,6 +407,8 @@ class User {
     }
 
     public function getCourseReview($courseId, $user="") {
+	// Obtiene la calificación que un usuario dejo en el curso especificado.
+
 	$toGet = $this->user;
 
 	if (!empty($user)) {
@@ -385,6 +429,8 @@ class User {
     }
 
     public function reviewCourse($courseId, $stars, $content, $user="") {
+	// Le crea una calificación al estudiante en el curso especificado.
+
 	$toPost = $this->user;
 
 	if (!empty($user)) {
@@ -403,6 +449,8 @@ class User {
     }
 
     public function updateReview($courseId, $stars, $content, $user="") {
+	// Actualiza la calificación de un estudiante en el curso especificado.
+
 	$toUpdate = $this->user;
 
 	if (!empty($user)) {
