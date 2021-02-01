@@ -22,11 +22,13 @@ $info = $course->getCourse();
 $tutor = new Tutor($conn, $info["tutor"]);
 $tutorInfo = $tutor->getInfo();
 
-if ($user->isUserEnroledInCourse($_GET["id"])) {
+if (isset($user) && $user->isUserEnroledInCourse($_GET["id"])) {
     $enroled = 1;
-}
 
-$progress = $user->getCourseProgress($_GET["id"]);
+    $progress = $user->getCourseProgress($_GET["id"]);
+} else {
+    $enroled = 0;
+}
 
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
@@ -122,7 +124,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	    ?>
 
 	      <div class="accordion__item <?php
-					  if ($progress["section"] == $sections[$i]["id"]) {
+					  if (isset($progress) && $progress["section"] == $sections[$i]["id"]) {
 					      echo "open";
 					  }
 					  ?>">
@@ -137,7 +139,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 		</a>
 
 		<div class="accordion__menu collapse <?php
-						     if ($progress["section"] == $sections[$i]["id"]) {
+						     if (isset($progress) && $progress["section"] == $sections[$i]["id"]) {
 							 echo "show";
 						     }
 						     ?>"
@@ -156,9 +158,9 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 		      <span class="icon-holder icon-holder--small
 				   <?php
 
-				   if ($progress["lesson"] == $lessons[$j]["id"]) {
+				   if (isset($progress) && $progress["lesson"] == $lessons[$j]["id"]) {
 				       echo "icon-holder--primary";
-				   } else if ($progress["lesson"] > $lessons[$j]["id"]) {
+				   } else if (isset($progress) && $progress["lesson"] > $lessons[$j]["id"]) {
 				       echo "icon-holder--default";
 				   } else {
 				       echo "icon-holder--dark";
@@ -166,15 +168,13 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 				   ?>
 				   rounded-circle d-inline-flex icon--left">
-			<!-- TODO: Guardar y cargar el progreso de un estudiante
-			     en un curso. Checar si ya termino y completo esta
-			     leccion. -->
+
 			<i class="material-icons icon-16pt">
 			  <?php
 
-			  if ($progress["lesson"] == $lessons[$j]["id"]) {
+			  if (isset($progress) && $progress["lesson"] == $lessons[$j]["id"]) {
 			      echo "play_circle_outline";
-			  } else if ($progress["lesson"] > $lessons[$j]["id"]) {
+			  } else if (isset($progress) && $progress["lesson"] > $lessons[$j]["id"]) {
 			      echo "check";
 			  } else  {
 			      echo "lock";
@@ -185,7 +185,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 		      </span>
 		      <a class="flex"
 				<?php
-				if ($progress["lesson"] >= $lessons[$j]["id"]) {
+				if (isset($progress) && $progress["lesson"] >= $lessons[$j]["id"]) {
 				    echo 'href="/lesson/'. $lessons[$j]["id"] .'"';
 				}
 				?>
@@ -205,7 +205,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 	</div>
 
-	<?php if (!isset($enroled)) { ?>
+	<?php if ($enroled == 0) { ?>
 	  <div class="col-md-4">
 
 	    <div class="card">
