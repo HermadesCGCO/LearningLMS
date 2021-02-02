@@ -30,7 +30,7 @@ if (isset($user) && $user->isUserEnroledInCourse($_GET["id"])) {
     $enroled = 0;
 }
 
-if (isset($_POST["postReview"])) {
+if (isset($_POST["postReview"]) && isset($user)) {
     if ($user->hasReviewedCourse($_GET["id"])) {
 	if ($user->updateReview($_GET["id"], $_POST["stars"], $_POST["reviewContent"], $course)) {
 	    header("Refresh: 0");
@@ -110,7 +110,15 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	  <div class="rating rating-24">
 	  </div>
 	  <p class="lh-l mb-0">
-	    <small class="text-muted"><?=$info["rating"];?>/5 estrellas</small>
+	    <small class="text-muted"><?php
+
+				      if (strlen($info["rating"]) > 3) {
+					  echo substr($info["rating"], 0, 3);
+				      } else {
+					  echo $info["rating"];
+				      }
+
+				      ?>/5 estrellas</small>
 	  </p>
 	</li>
 
@@ -440,7 +448,15 @@ para nostros</p>";
 
       <div class="row mb-32pt">
 	<div class="col-md-3 mb-32pt mb-md-0">
-	  <div class="display-1"><?php echo $info["rating"]; ?></div>
+	  <div class="display-1"><?php
+
+				      if (strlen($info["rating"]) > 3) {
+					  echo substr($info["rating"], 0, 3);
+				      } else {
+					  echo $info["rating"];
+				      }
+
+				      ?></div>
 	  <div class="rating rating-24">
 	    <?php
 
