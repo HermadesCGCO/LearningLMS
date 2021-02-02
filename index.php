@@ -126,22 +126,6 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
   </div>
   <!-- End Featured Courses -->
 
-  <!-- Feedback -->
-  <div class="page-section">
-    <div class="container page__container">
-      <div class="page-headline text-center">
-	<h2>Feedback</h2>
-	<p class="lead measure-lead mx-auto text-70">
-	  Descubre lo que otros estudiantes y entidades piensan sobre nuestro
-	  contenido, nuestra plataforma y nuestras herramientas.
-	</p>
-      </div>
-
-      <h1>TODO: This</h1>
-    </div>
-  </div>
-  <!-- End Feedback -->
-
 </div>
 
 <?php
