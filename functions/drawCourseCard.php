@@ -23,7 +23,25 @@ function drawCourseCard($info, $youlearn, $textVisit="Visitar", $url="default") 
   </p>
 
 </div>
-';
+    ';
+    }
+
+    $ratingHTML = "";
+
+    for ($i = 0; $i < floor($info["rating"]); $i++) {
+	$ratingHTML .= '
+<span class="rating__item"><span class="material-icons">star</span></span>
+	';
+
+	if (floor($info["rating"]) < 5 && $i == floor($info["rating"])-1) {
+	    $restant = abs(floor($info["rating"]) - 5);
+
+	    for ($j = 0; $j < $restant; $j++) {
+		$ratingHTML .= '
+<span class="rating__item"><span class="material-icons">star_border</span></span>
+		';
+	    }
+	}
     }
 
     if ($info["category"] == "Hacking") {
@@ -73,12 +91,7 @@ function drawCourseCard($info, $youlearn, $textVisit="Visitar", $url="default") 
 
         <div class="d-flex">
           <div class="rating flex">
-            <!-- TODO: Rating system -->
-            <span class="rating__item"><span class="material-icons">star_border</span></span>
-            <span class="rating__item"><span class="material-icons">star_border</span></span>
-            <span class="rating__item"><span class="material-icons">star_border</span></span>
-            <span class="rating__item"><span class="material-icons">star_border</span></span>
-            <span class="rating__item"><span class="material-icons">star_border</span></span>
+            '. $ratingHTML .'
           </div>
 
           <small class="text-50">'. $info["duration"] .' horas</small>
