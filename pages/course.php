@@ -22,8 +22,6 @@ $info = $course->getCourse();
 $tutor = new Tutor($conn, $info["tutor"]);
 $tutorInfo = $tutor->getInfo();
 
-$rating = $course->getRating();
-
 if (isset($user) && $user->isUserEnroledInCourse($_GET["id"])) {
     $enroled = 1;
 
@@ -34,12 +32,12 @@ if (isset($user) && $user->isUserEnroledInCourse($_GET["id"])) {
 
 if (isset($_POST["postReview"])) {
     if ($user->hasReviewedCourse($_GET["id"])) {
-	if ($user->updateReview($_GET["id"], $_POST["stars"], $_POST["reviewContent"])) {
+	if ($user->updateReview($_GET["id"], $_POST["stars"], $_POST["reviewContent"], $course)) {
 	    header("Refresh: 0");
 	    exit();
 	}
     } else {
-	if ($user->reviewCourse($_GET["id"], $_POST["stars"], $_POST["reviewContent"])) {
+	if ($user->reviewCourse($_GET["id"], $_POST["stars"], $_POST["reviewContent"], $course)) {
 	    header("Refresh: 0");
 	    exit();
 	}
@@ -112,7 +110,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	  <div class="rating rating-24">
 	  </div>
 	  <p class="lh-l mb-0">
-	    <small class="text-muted"><?=$rating["totalRating"];?>/5 estrellas</small>
+	    <small class="text-muted"><?=$info["rating"];?>/5 estrellas</small>
 	  </p>
 	</li>
 
@@ -442,11 +440,11 @@ para nostros</p>";
 
       <div class="row mb-32pt">
 	<div class="col-md-3 mb-32pt mb-md-0">
-	  <div class="display-1"><?php echo $rating["totalRating"]; ?></div>
+	  <div class="display-1"><?php echo $info["rating"]; ?></div>
 	  <div class="rating rating-24">
 	    <?php
 
-	    for ($i = 0; $i < floor($rating["totalRating"]); $i++) {
+	    for ($i = 0; $i < floor($info["rating"]); $i++) {
 	    ?>
 	      <span class="rating__item">
 		<span class="material-icons">
@@ -456,8 +454,8 @@ para nostros</p>";
 
 	      <?php
 
-	      if (floor($rating["totalRating"]) < 5 && $i == (floor($rating["totalRating"]) - 1)) {
-		  $necesary = abs(floor($rating["totalRating"]) - 5);
+	      if (floor($info["rating"]) < 5 && $i == (floor($info["rating"]) - 1)) {
+		  $necesary = abs(floor($info["rating"]) - 5);
 
 		  for ($j = 0; $j < $necesary; $j++) {
 		      echo '
@@ -471,7 +469,7 @@ para nostros</p>";
 	      ?>
 	    <?php } ?>
 	  </div>
-	  <p class="text-muted mb-0"><?php echo $rating["numReviews"]; ?> calificaciones</p>
+	  <p class="text-muted mb-0"><?php echo $info["ratings"]; ?> calificaciones</p>
 	</div>
 
 	<div class="col-md-9">

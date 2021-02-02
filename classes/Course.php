@@ -74,7 +74,7 @@ class Course {
 
 	$course = [];
 
-	$query = "SELECT id,name,shortDesc,description,thumb,difficulty,category,duration,lastUpdated,students,lessons,tutor FROM courses";
+	$query = "SELECT id,name,shortDesc,description,thumb,difficulty,category,duration,rating,ratings,lastUpdated,students,lessons,tutor FROM courses";
 
 	if ($courseId == null && !empty($this->id)) {
 	    $query .= " WHERE id=" . $this->id;
@@ -94,6 +94,8 @@ class Course {
 	    $difficulty,
 	    $category,
 	    $duration,
+	    $rating,
+	    $ratings,
 	    $lastUpdated,
 	    $students,
 	    $lessons,
@@ -110,6 +112,8 @@ class Course {
 	$course["difficulty"] = $difficulty;
 	$course["category"] = $category;
 	$course["duration"] = $duration;
+	$course["rating"] = $rating;
+	$course["ratings"] = $ratings;
 	$course["lastUpdated"] = $lastUpdated;
 	$course["students"] = $students;
 	$course["lessons"] = $lessons;

@@ -428,7 +428,7 @@ class User {
 	);
     }
 
-    public function reviewCourse($courseId, $stars, $content, $user="") {
+    public function reviewCourse($courseId, $stars, $content, $course, $user="") {
 	// Le crea una calificación al estudiante en el curso especificado.
 
 	$toPost = $this->user;
@@ -441,14 +441,24 @@ class User {
 	$stmt->bind_param("ssii", $toPost, $content, $stars, $courseId);
 	if ($stmt->execute()) {
 	    $stmt->close();
-	    return true;
+
+	    $ratings = $course->getRating();
+
+	    $stmt = $this->conn->prepare("UPDATE courses SET rating=?,ratings=ratings+1 WHERE id=?");
+	    $stmt->bind_param("di", $ratings["totalRating"], $courseId);
+	    if ($stmt->execute()) {
+		$stmt->close();
+		return true;
+	    }
+
+	    return false;
 	} else {
 	    $stmt->close();
 	    return false;
 	}
     }
 
-    public function updateReview($courseId, $stars, $content, $user="") {
+    public function updateReview($courseId, $stars, $content, $course, $user="") {
 	// Actualiza la calificación de un estudiante en el curso especificado.
 
 	$toUpdate = $this->user;
@@ -461,6 +471,16 @@ class User {
 	$stmt->bind_param("sisi", $content, $stars, $toUpdate, $courseId);
 	if ($stmt->execute()) {
 	    $stmt->close();
+
+	    $ratings = $course->getRating();
+
+	    $stmt = $this->conn->prepare("UPDATE courses SET rating=? WHERE id=?");
+	    $stmt->bind_param("di", $ratings["totalRating"], $courseId);
+	    if ($stmt->execute()) {
+		$stmt->close();
+		return true;
+	    }
+
 	    return true;
 	} else {
 	    $stmt->close();
