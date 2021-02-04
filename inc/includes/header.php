@@ -141,7 +141,9 @@
 		    type="button" data-toggle="dropdown" data-caret="false">
 
 	      <i class="material-icons">notifications_none</i>
-	      <span class="badge badge-notifications badge-accent">1</span>
+	      <span class="badge badge-notifications badge-accent">
+		<?php echo $userInfo["unreadNotifications"]; ?>
+	      </span>
 
 	    </button>
 
@@ -153,10 +155,55 @@
 		</div>
 
 		<div class="list-group list-group-flush mb-0">
-		  <p>Esto aun no esta terminado :'(</p>
-		  <p>Tengo pensado poner aqui las respuestas de un tutor a tu
-		    calificacion o si eres un tutor, si algun estudiante publico
-		    una calificacion a alguno de tus cursos.</p>
+
+		  <?php
+
+		  $nots = $notifications->getNotifications(4);
+
+		  for ($i = 0; $i < sizeof($nots); $i++) {
+		  ?>
+
+		    <a href="javascript:void(0)"
+		       class="list-group-item list-group-item-action<?php
+								    if ($nots[$i]["hasRead"] == "no") {
+									echo "unread";
+								    }
+								    ?>">
+		      <span class="d-flex align-items-center mb-1">
+			<span class="text-black-50"><?=$nots[$i]["date"]?></span>
+			<?php
+			if ($nots[$i]["hasRead"] == "no") {
+			    echo '<span class="ml-auto unread-indicator bg-accent"></span>';
+			}
+			?>
+		      </span>
+
+		      <span class="d-flex">
+			<span class="avatar avatar-xs mr-2">
+			  <span class="avatar-title rounded-circle bg-light">
+			    <i class="material-icons font-size-16pt text-accent">
+			      account_circle
+			    </i>
+			  </span>
+			</span>
+
+			<span class="flex d-flex flex-column">
+			  <span class="text-black-70">
+			    <?php
+
+			    if ($nots[$i]["type"] == 0) {
+				echo $nots[$i]["sender"] . " ha dejado una
+				calificacion en uno de tus cursos.";
+			    }
+
+			    ?>
+			  </span>
+			</span>
+		      </span>
+		    </a>
+
+		  <?php } ?>
+
 		</div>
 
 	      </div>

@@ -32,12 +32,12 @@ if (isset($user) && $user->isUserEnroledInCourse($_GET["id"])) {
 
 if (isset($_POST["postReview"]) && isset($user)) {
     if ($user->hasReviewedCourse($_GET["id"])) {
-	if ($user->updateReview($_GET["id"], $_POST["stars"], $_POST["reviewContent"], $course)) {
+	if ($user->updateReview($_GET["id"], $_POST["stars"], $_POST["reviewContent"], $course, $notifications)) {
 	    header("Refresh: 0");
 	    exit();
 	}
     } else {
-	if ($user->reviewCourse($_GET["id"], $_POST["stars"], $_POST["reviewContent"], $course)) {
+	if ($user->reviewCourse($_GET["id"], $_POST["stars"], $_POST["reviewContent"], $course, $notifications)) {
 	    header("Refresh: 0");
 	    exit();
 	}

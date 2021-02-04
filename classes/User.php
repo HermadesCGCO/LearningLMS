@@ -135,20 +135,22 @@ class User {
 	    $user = $userName;
 	}
 
-	$stmt = $this->conn->prepare("SELECT name,lastname,email FROM users WHERE name=?");
+	$stmt = $this->conn->prepare("SELECT name,lastname,email,unreadNotifications FROM users WHERE name=?");
 	$stmt->bind_param("s", $user);
 	if ($stmt->execute()) {
 	    $stmt->bind_result(
 		$name,
 		$lastname,
-		$email
+		$email,
+		$unreadNotifications
 	    );
 	    $stmt->fetch();
 
 	    return array(
 		"name" => $name,
 		"lastname" => $lastname,
-		"email" => $email
+		"email" => $email,
+		"unreadNotifications" => $unreadNotifications
 	    );
 	}
 
@@ -428,7 +430,7 @@ class User {
 	);
     }
 
-    public function reviewCourse($courseId, $stars, $content, $course, $user="") {
+    public function reviewCourse($courseId, $stars, $content, $course, $notifications, $user="") {
 	// Le crea una calificación al estudiante en el curso especificado.
 
 	$toPost = $this->user;
@@ -448,6 +450,17 @@ class User {
 	    $stmt->bind_param("di", $ratings["totalRating"], $courseId);
 	    if ($stmt->execute()) {
 		$stmt->close();
+
+		$courseInfo = $course->getCourse();
+
+		$notifData = array(
+		    "sender" => $toPost,
+		    "receiver" => $courseInfo["tutor"],
+		    "courseId" => $courseId
+		);
+
+		$notifications->createNotification(0, $notifData);
+
 		return true;
 	    }
 

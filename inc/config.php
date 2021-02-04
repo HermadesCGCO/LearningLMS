@@ -24,9 +24,13 @@ include "db.php";
 
 if (isset($_SESSION["name"]) && !defined("Class.User")) {
     include $_SERVER["DOCUMENT_ROOT"] . "/classes/User.php";
+    include $_SERVER["DOCUMENT_ROOT"] . "/classes/Notifications.php";
 
     $user = new User($conn);
     $user->linkUser($_SESSION["name"]);
+    $userInfo = $user->getUserInfo();
+
+    $notifications = new Notifications($conn, $_SESSION["name"]);
 }
 
 ?>
