@@ -46,6 +46,8 @@ if (isset($_POST["postReview"]) && isset($user)) {
 
 $includeTinyMCE = 1;
 
+$pageTitle = $info["name"];
+
 include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 ?>
@@ -405,14 +407,13 @@ para nostros</p>";
 
 		    <div class="media ml-12pt">
 		      <div class="media-left mr-12pt">
-			<!-- TODO: Student profile -->
-			<a class="avatar avatar-sm" href="#">
+			<a class="avatar avatar-sm" href="/student/<?=$feedback[$i]["student"]?>">
 			  <span class="avatar-title rounded-circle"><?php echo substr($feedback[$i]["student"], 0, 2); ?></span>
 			</a>
 		      </div>
 
 		      <div class="media-body media-middle">
-			<a class="card-title" href="#">
+			<a class="card-title" href="/student/<?=$feedback[$i]["student"]?>">
 			  <?php echo $feedback[$i]["student"]; ?>
 			</a>
 
@@ -500,7 +501,7 @@ para nostros</p>";
 	    <div class="row mb-16pt">
 	      <div class="col-md-3 mb-16pt">
 		<div class="d-flex">
-		  <a class="avatar avatar-sm mr-12pt" href="#">
+		  <a class="avatar avatar-sm mr-12pt" href="/student/<?=$ratings[$i]["student"]?>">
 		    <span class="avatar-title rounded-circle">
 		      <?php echo substr($ratings[$i]["student"], 0, 2); ?>
 		    </span>
@@ -509,7 +510,7 @@ para nostros</p>";
 		    <p class="small text-muted m-0">
 		      <?php echo $ratings[$i]["stars"]; ?> estrellas
 		    </p>
-		    <a href="#" class="card-title">
+		    <a href="<?=$ratings[$i]["student"]?>" class="card-title">
 		      <?php echo $ratings[$i]["student"]; ?>
 		    </a>
 		  </div>

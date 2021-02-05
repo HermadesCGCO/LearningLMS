@@ -135,14 +135,15 @@ class User {
 	    $user = $userName;
 	}
 
-	$stmt = $this->conn->prepare("SELECT name,lastname,email,unreadNotifications FROM users WHERE name=?");
+	$stmt = $this->conn->prepare("SELECT name,lastname,email,unreadNotifications,wantlearn FROM users WHERE name=?");
 	$stmt->bind_param("s", $user);
 	if ($stmt->execute()) {
 	    $stmt->bind_result(
 		$name,
 		$lastname,
 		$email,
-		$unreadNotifications
+		$unreadNotifications,
+		$wantlearn
 	    );
 	    $stmt->fetch();
 
@@ -150,7 +151,8 @@ class User {
 		"name" => $name,
 		"lastname" => $lastname,
 		"email" => $email,
-		"unreadNotifications" => $unreadNotifications
+		"unreadNotifications" => $unreadNotifications,
+		"wantlearn" => $wantlearn
 	    );
 	}
 
