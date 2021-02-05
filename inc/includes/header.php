@@ -24,7 +24,7 @@
       <a href="/" class="navbar-brand mr-16pt">
 	<span class="avatar avatar-sm navbar-brand-icon mr-0 mr-lg-8pt">
 	  <span class="avatar-title rounded bg-primary">
-	    <img src="/public/images/illustration/illustration_student_white.svg"
+	    <img src="/public/images/logos/white_alpha.png"
 		 class="img-fluid">
 	  </span>
 	</span>

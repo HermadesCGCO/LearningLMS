@@ -4,7 +4,7 @@
 	  <div class="container page__container page-section
 		      d-flex flex-column">
 	    <p class="text-70 brand mb-24pt">
-	      <img class="brand-icon" src="/public/images/logos/1.jpg" width="30">
+	      <img class="brand-icon" src="/public/images/logos/black_alpha.png" width="30">
 	      Delta Learning
 	    </p>
 
