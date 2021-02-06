@@ -39,3 +39,5 @@ RewriteRule ^tutor/([A-Za-z]+)/$ pages/tutor/tutor.php?name=$1 [NC,L]
 
 RewriteRule ^student/(.*)$ pages/student.php?name=$1 [NC,L]
 RewriteRule ^student/(.*)$/ pages/student.php?name=$1 [NC,L]
+
+RewriteRule ^editAccount$ pages/editAccount.php [NC,L]

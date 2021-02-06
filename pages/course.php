@@ -510,7 +510,7 @@ para nostros</p>";
 		    <p class="small text-muted m-0">
 		      <?php echo $ratings[$i]["stars"]; ?> estrellas
 		    </p>
-		    <a href="<?=$ratings[$i]["student"]?>" class="card-title">
+		    <a href="/student/<?=$ratings[$i]["student"]?>" class="card-title">
 		      <?php echo $ratings[$i]["student"]; ?>
 		    </a>
 		  </div>

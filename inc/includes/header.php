@@ -231,7 +231,7 @@
 		<strong>Cuenta</strong>
 	      </div>
 
-	      <a class="dropdown-item" href="#">
+	      <a class="dropdown-item" href="/editAccount">
 		Editar cuenta
 	      </a>
 

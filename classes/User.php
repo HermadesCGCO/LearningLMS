@@ -159,6 +159,49 @@ class User {
 	return false;
     }
 
+    public function hasSetCustomInfo($userName="") {
+	// Chequea si un usuario ya actualizo los datos de su cuenta
+    }
+
+    public function getCustomInfo($userName="") {
+	// Obtiene la informacion de un usuario (de la tabla "userInfo")
+
+	$info = [];
+	$user = $this->user;
+
+	if (!empty($userName)) {
+	    $user = $userName;
+	}
+
+	$stmt = $this->conn->prepare("SELECT facebook,twitter,youtube,mastodon,peertube,about,connect FROM userInfo WHERE student=?");
+	$stmt->bind_param("s", $user);
+	$stmt->execute();
+	$stmt->bind_result(
+	    $facebook,
+	    $twitter,
+	    $youtube,
+	    $mastodon,
+	    $peertube,
+	    $about,
+	    $connect
+	);
+	$stmt->fetch();
+	$stmt->close();
+
+	$info[0]["facebook"] = $facebook;
+	$info[0]["twitter"] = $twitter;
+	$info[0]["youtube"] = $youtube;
+	$info[0]["mastodon"] = $mastodon;
+	$info[0]["peertube"] = $peertube;
+	$info[0]["about"] = $about;
+	$info[0]["connect"] = $connect;
+
+	return $info;
+    }
+
+    public function updateCustomInfo($data, $userName="") {
+    }
+
     public function updateInfo($data) {
 	// Actualiza la informacion de un usuario.
 

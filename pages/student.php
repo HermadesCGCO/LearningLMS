@@ -16,6 +16,7 @@ if (!isset($_SESSION["name"])) {
 $user->linkUser($_GET["name"]);
 
 $info = $user->getUserInfo();
+$customInfo = $user->getCustomInfo();
 
 if (isset($_SESSION["name"])) {
     $user->linkUser($_SESSION["name"]);
@@ -49,7 +50,15 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 	<div class="col-md-6">
 	  <h4>Sobre mí</h4>
 	  <p class="text-70">
-	    <!-- TODO: Student about -->
+	    <?php
+
+	    if (!empty($customInfo[0]["about"])) {
+		echo htmlspecialchars_decode($customInfo[0]["about"]);
+	    } else {
+		echo "Este estudiante aún no nos habla sobre él...<br><br>";
+	    }
+
+	    ?>
 	    Mis intereses son:
 	  </p>
 	  <ul class="text-70">
@@ -66,7 +75,77 @@ include $_SERVER["DOCUMENT_ROOT"] . "/inc/head.php";
 
 	<div class="col-md-6">
 	  <h4>Contacto</h4>
-	  <p class="text-70">TODO: Students' social network</p>
+	  <p class="text-70">
+	    <?php
+
+	    if (!empty($customInfo["connect"])) {
+		echo htmlspecialchars_decode($customInfo["connect"]);
+	    } else {
+		echo "Este estudiante aún no nos habla sobre él...<br></br>";
+	    }
+
+	    ?>
+	  </p>
+
+	  <div class="d-flex align-items-center">
+	    <?php
+
+	    if (!empty($customInfo["facebook"])) {
+		echo '
+<a href="'.$customInfo["facebook"].'" class="text-accent fab fa-facebook-square
+font-size-24pt mr-8pt"></a>
+		';
+	    }
+
+	    if (!empty($customInfo["twitter"])) {
+		echo '
+<a href="'.$customInfo["twitter"].'" class="text-accent fab fa-twitter-square
+font-size-24pt mr-8pt"></a>
+		';
+	    }
+
+	    if (!empty($customInfo["youtube"])) {
+		echo '
+<a href="'.$customInfo["youtube"].'" class="text-accent fab fa-youtube-square
+font-size-24pt mr-8pt"></a>
+		';
+
+	    }
+
+	    if (!empty($customInfo["mastodon"])) {
+		echo '
+<a href="'.$customInfo["mastidon"].'" class="text-accent fab fa-mastodon-square
+font-size-24pt mr-8pt"></a>
+		';
+
+	    }
+
+	    if (!empty($customInfo["peertube"])) {
+		echo '
+<a href="'.$customInfo["peertube"].'" class="text-accent fab fa-youtube
+font-size-24pt mr-8pt"></a>
+		';
+
+	    }
+
+	    if (!empty($customInfo["facebook"])) {
+		echo '
+<a href="'.$customInfo["facebook"].'" class="text-accent fab fa-facebook-square
+font-size-24pt mr-8pt"></a>
+		';
+
+	    }
+
+	    if (!empty($customInfo["facebook"])) {
+		echo '
+<a href="'.$customInfo["facebook"].'" class="text-accent fab fa-facebook-square
+font-size-24pt mr-8pt"></a>
+		';
+
+	    }
+
+	    ?>
+	  </div>
 	</div>
       </div>
     </div>
